@@ -32,19 +32,25 @@ commands:
             echo "${CIRCLE_SHA1}-${CIRCLE_BRANCH:-nil}-${CIRCLE_TAG:-nil}-`date "+%Y%m%d"`" > .cachekey
             cat .cachekey
   module-checkout:
+    parameters:
+      module-path:
+        type: string
     steps:
       - internal-checkout
       - restore_cache:
           key: configs-{{ checksum ".cachekey" }}
       - restore_cache:
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum  "<<parameters.module-path>>/build.gradle.kts" }}
   module-save-cache:
+    parameters:
+      module-path:
+        type: string
     steps:
       - save_cache:
           paths:
             - ~/.gradle
             - ~/.m2
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum  "<<parameters.module-path>>/build.gradle.kts" }}
 jobs:
   configure:
     executor:
@@ -73,7 +79,8 @@ jobs:
     executor:
       name: android-build
     steps:
-      - module-checkout
+      - module-checkout:
+          module-path: << parameters.module-path >>
       - run:
           name: local-test
           command: ./gradlew "<< parameters.localTestTask >>"
@@ -86,9 +93,12 @@ jobs:
               echo "run -> ./gradlew format"
               exit 1
             fi
-      - module-save-cache
+      - module-save-cache:
+          module-path: << parameters.module-path >>
   android-test:
     parameters:
+      module-path:
+        type: string
       localTestTask:
         type: string
         default: testDebug
@@ -104,7 +114,8 @@ jobs:
     executor:
       name: android-build
     steps:
-      - module-checkout
+      - module-checkout:
+          module-path: << parameters.module-path >>
       - run:
           name: local-test
           command: ./gradlew "<< parameters.localTestTask >>"
@@ -123,19 +134,27 @@ jobs:
               echo "run -> ./gradlew format"
               exit 1
             fi
-      - module-save-cache
+      - module-save-cache:
+          module-path: << parameters.module-path >>
   ##############################################
   # deploy in parameters.module
   ##############################################
   deploy-to-bintray-android:
+    parameters:
+      module-path:
+        type: string
     executor:
       name: android-build
     steps:
-      - module-checkout
+      - module-checkout:
+          module-path: << parameters.module-path >>
       - run:
           name: deploy
           command: ./gradlew bintrayUpload
   deploy-to-bintray-kotlin:
+    parameters:
+      module-path:
+        type: string
     executor:
       name: android-build
     steps:
@@ -168,11 +187,13 @@ workflows:
       - android-test:
           name: test
           context: bintray-maven
+          module-path: armyknife-jetpack
           <<: *filter-for-assemble
           <<: *depends-from-tests
       - deploy-to-bintray-android:
           name: deploy-to-bintray
           context: bintray-maven
+          module-path: armyknife-jetpack
           <<: *filter-for-assemble
           <<: *depends-from-deploy
 # EOF
