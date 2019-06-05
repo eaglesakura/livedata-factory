@@ -95,6 +95,15 @@ jobs:
             fi
       - module-save-cache:
           module-path: << parameters.module-path >>
+      - store_artifacts:
+          destination: archive-test-reports
+          path: "<< parameters.module-path >>/build/reports"
+      - store_artifacts:
+          destination: archive-outputs
+          path: "<< parameters.module-path >>/build/outputs"
+      - store_test_results:
+          destination: archive-outputs
+          path: "<< parameters.module-path >>/build/test-results"
   android-test:
     parameters:
       module-path:
@@ -136,6 +145,15 @@ jobs:
             fi
       - module-save-cache:
           module-path: << parameters.module-path >>
+      - store_artifacts:
+          destination: archive-test-reports
+          path: "<< parameters.module-path >>/build/reports"
+      - store_artifacts:
+          destination: archive-outputs
+          path: "<< parameters.module-path >>/build/outputs"
+      - store_test_results:
+          destination: archive-outputs
+          path: "<< parameters.module-path >>/build/test-results"
   ##############################################
   # deploy in parameters.module
   ##############################################
