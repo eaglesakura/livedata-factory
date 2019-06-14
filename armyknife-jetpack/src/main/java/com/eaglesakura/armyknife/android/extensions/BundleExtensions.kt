@@ -14,9 +14,9 @@ import kotlin.reflect.KClass
  *
  * @see Parcelable.marshal
  */
-fun Bundle.putMarshalParcelable(name: String, value: Parcelable) {
-    putString("$name@class", value.javaClass.name)
-    putByteArray("$name@marshal", value.marshal())
+fun Bundle.putMarshalParcelable(name: String, value: Parcelable?) {
+    putString("$name@class", value?.javaClass?.name)
+    putByteArray("$name@marshal", value?.marshal())
 }
 
 /**

@@ -7,6 +7,7 @@ import com.eaglesakura.armyknife.runtime.extensions.encodeBase64
 import kotlinx.android.parcel.Parcelize
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -25,6 +26,20 @@ class IntentExtensionsKtTest {
             val extra = copied.getMarshalParcelableExtra<ExampleDataClass>("name")
             assertNotNull(extra)
             assertEquals("example@example.com", extra!!.string)
+        }
+    }
+
+    @Test
+    fun putMarshalParcelableExtra_null() {
+        val intent = Intent()
+        intent.putMarshalParcelableExtra("name", null)
+
+        assertNull(intent.getStringExtra("name@class"))
+        assertNull(intent.getByteArrayExtra("name@marshal"))
+
+        intent.deepCopy<Intent>().also { copied ->
+            val extra = copied.getMarshalParcelableExtra<ExampleDataClass>("name")
+            assertNull(extra)
         }
     }
 }

@@ -14,9 +14,9 @@ import kotlin.reflect.KClass
  *
  * @see Parcelable.marshal
  */
-fun Intent.putMarshalParcelableExtra(name: String, value: Parcelable): Intent {
-    putExtra("$name@class", value.javaClass.name)
-    putExtra("$name@marshal", value.marshal())
+fun Intent.putMarshalParcelableExtra(name: String, value: Parcelable?): Intent {
+    putExtra("$name@class", value?.javaClass?.name)
+    putExtra("$name@marshal", value?.marshal())
     return this
 }
 
