@@ -33,5 +33,5 @@ inline fun Snackbar.setBackgroundColor(@ColorInt color: Int) {
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun Snackbar.setTextColor(@ColorInt color: Int) {
-    view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTextColor(color)
+    view.findViewByFilter<TextView> { it is TextView }?.setTextColor(color)
 }

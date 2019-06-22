@@ -7,7 +7,10 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import java.util.concurrent.TimeUnit
 
-@Deprecated("replace to developerMode", ReplaceWith("developerMode"))
+@Deprecated(
+    "deprecated access to Firebase.config.developerMode",
+    ReplaceWith("/* FIXME: DELETE THIS */")
+)
 fun FirebaseRemoteConfig.setDebug(set: Boolean) {
     FirebaseRemoteConfigSettings.Builder().setDeveloperModeEnabled(set).build().let {
         setConfigSettings(it)
@@ -20,6 +23,10 @@ fun FirebaseRemoteConfig.setDebug(set: Boolean) {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
  */
+@Deprecated(
+    "deprecated access to Firebase.config.developerMode",
+    ReplaceWith("/* FIXME: DELETE THIS */")
+)
 var FirebaseRemoteConfig.developerMode
     get() = info.configSettings.isDeveloperModeEnabled
     set(value) {
