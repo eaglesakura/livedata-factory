@@ -40,7 +40,7 @@ commands:
       - restore_cache:
           key: configs-{{ checksum ".cachekey" }}
       - restore_cache:
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum  "<<parameters.module-path>>/build.gradle.kts" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "armyknife-jetpack-dependencies/build.gradle.kts" }}-{{ checksum "build.gradle.kts" }}-{{ checksum  "<<parameters.module-path>>/build.gradle.kts" }}
   module-save-cache:
     parameters:
       module-path:
@@ -50,7 +50,7 @@ commands:
           paths:
             - ~/.gradle
             - ~/.m2
-          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "build.gradle.kts" }}-{{ checksum  "<<parameters.module-path>>/build.gradle.kts" }}
+          key: gradle-{{ checksum ".circleci/config.yml" }}-{{ checksum "armyknife-jetpack-dependencies/build.gradle.kts" }}-{{ checksum "build.gradle.kts" }}-{{ checksum  "<<parameters.module-path>>/build.gradle.kts" }}
 jobs:
   configure:
     executor:
@@ -128,9 +128,9 @@ jobs:
       - run:
           name: local-test
           command: ./gradlew "<< parameters.localTestTask >>"
-      - run:
-          name: instrumentation
-          command: ./gradlew "<< parameters.instrumentationTestTask >>"
+#      - run:
+#          name: instrumentation
+#          command: ./gradlew "<< parameters.instrumentationTestTask >>"
       - run:
           name: lint
           command: ./gradlew "<< parameters.lintTask >>"
