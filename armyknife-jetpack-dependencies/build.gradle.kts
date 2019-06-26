@@ -52,6 +52,7 @@ dependencies {
     "api"("androidx.leanback:leanback-preference:1.0.0")
     "api"("androidx.lifecycle:lifecycle-extensions:2.0.0")
     "api"("androidx.lifecycle:lifecycle-viewmodel:2.0.0")
+    "api"("androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha01")
     "api"("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
     "api"("androidx.lifecycle:lifecycle-runtime:2.0.0")
     "api"("androidx.lifecycle:lifecycle-common-java8:2.0.0")
