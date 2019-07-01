@@ -26,6 +26,6 @@ class StringExtensionsKtTest {
 
     @Test
     fun base64() {
-        assertEquals("MTIzNDU", "12345".toByteArray().encodeBase64())
+        assertEquals("MTIzNDU=", "12345".toByteArray().encodeBase64())
     }
 }

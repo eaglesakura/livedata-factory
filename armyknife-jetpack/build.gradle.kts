@@ -7,7 +7,7 @@ dependencies {
     "testImplementation"(project(":armyknife-jetpack-dependencies"))
     "androidTestImplementation"(project(":armyknife-jetpack-dependencies"))
 
-    "api"("com.eaglesakura.armyknife.armyknife-runtime:armyknife-runtime:1.3.2")
+    "api"("com.eaglesakura.armyknife.armyknife-runtime:armyknife-runtime:1.3.3")
 
     "androidTestImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0-alpha02")
     "testImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0-alpha02")

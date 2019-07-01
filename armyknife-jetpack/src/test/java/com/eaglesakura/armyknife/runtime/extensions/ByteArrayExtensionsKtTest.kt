@@ -1,12 +1,25 @@
 package com.eaglesakura.armyknife.runtime.extensions
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.runtime.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import java.nio.charset.Charset
 
+@RunWith(AndroidJUnit4::class)
 class ByteArrayExtensionsKtTest {
     @Test
     fun encodeBase64() {
-        assertEquals("MTIzNDU=", "12345".toByteArray().encodeBase64())
+        for (i in 0 until 1000) {
+            val value = Random.largeString()
+            assertEquals(
+                value,
+                value.toByteArray(Charset.defaultCharset()).encodeBase64().decodeBase64().toString(
+                    Charset.defaultCharset()
+                )
+            )
+        }
     }
 
     @Test
