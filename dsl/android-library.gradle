@@ -54,8 +54,8 @@ dependencies {
     /**
      * for Tests (or Android Tests)
      */
-    testImplementation 'org.robolectric:robolectric:4.2.1'
-    androidTestImplementation 'androidx.multidex:multidex:2.0.0'
+    testImplementation 'org.robolectric:robolectric:4.3'
+    androidTestImplementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.25.0'
 
