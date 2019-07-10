@@ -7,8 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.yield
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +22,7 @@ class LiveDataExtensionsKtTest {
     fun setValueAsync() = compatibleBlockingTest(Dispatchers.Main) {
         val liveData = MutableLiveData<String>()
         liveData.setValueAsync(Dispatchers.IO) {
-            kotlinx.coroutines.delay(1000)
+            delay(1000)
             "OK"
         }
 
@@ -33,7 +35,7 @@ class LiveDataExtensionsKtTest {
 
         val scope = Job()
         liveData.setValueAsync((GlobalScope + scope), Dispatchers.IO) {
-            kotlinx.coroutines.delay(1000)
+            delay(1000)
             "OK"
         }
         scope.cancel()
@@ -41,5 +43,45 @@ class LiveDataExtensionsKtTest {
         withTimeout(2000) {
             liveData.await()
         }
+    }
+
+    @Test
+    fun setValueIfChanged() = compatibleBlockingTest(Dispatchers.Main) {
+        val liveData = MutableLiveData<String>()
+        var notifyCount = 0
+
+        liveData.observeForever {
+            notifyCount++
+        }
+        yield()
+        liveData.setValueIfChanged("Update")
+        yield()
+        assertEquals(1, notifyCount) // notify
+        liveData.setValueIfChanged("Update")
+        yield()
+        assertEquals(1, notifyCount) // not notify
+        liveData.setValueIfChanged("End")
+        yield()
+        assertEquals(2, notifyCount) // notify
+    }
+
+    @Test
+    fun setValueIfChanged_lambda() = compatibleBlockingTest(Dispatchers.Main) {
+        val liveData = MutableLiveData<String>()
+        var notifyCount = 0
+
+        liveData.observeForever {
+            notifyCount++
+        }
+        yield()
+        liveData.setValueIfChanged("Update") { oldValue, newValue -> oldValue == newValue }
+        yield()
+        assertEquals(1, notifyCount) // notify
+        liveData.setValueIfChanged("Update") { oldValue, newValue -> oldValue == newValue }
+        yield()
+        assertEquals(1, notifyCount) // not notify
+        liveData.setValueIfChanged("End") { oldValue, newValue -> oldValue == newValue }
+        yield()
+        assertEquals(2, notifyCount) // notify
     }
 }

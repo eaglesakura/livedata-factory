@@ -173,3 +173,33 @@ fun <T> MutableLiveData<T>.setValueAsync(
         }
     }
 }
+
+/**
+ * set newValue.
+ *
+ * e.g.)
+ *
+ * val url = MutableLiveData<String>()
+ * url.setValueIfChanged("https://example.com") // notify observers to 'https://example.com'
+ * url.setValueIfChanged("https://example.com") // not notify.
+ */
+fun <T> MutableLiveData<T>.setValueIfChanged(newValue: T?) {
+    if (this.value != newValue) {
+        this.value = newValue
+    }
+}
+
+/**
+ * set newValue.
+ *
+ * e.g.)
+ *
+ * val url = MutableLiveData<String>()
+ * url.setValueIfChanged("https://example.com") { oldValue == newValue } // notify observers to 'https://example.com'
+ * url.setValueIfChanged("https://example.com") { oldValue == newValue } // not notify.
+ */
+fun <T> MutableLiveData<T>.setValueIfChanged(newValue: T?, equals: (oldValue: T?, newValue: T?) -> Boolean) {
+    if (!equals(this.value, newValue)) {
+        this.value = newValue
+    }
+}

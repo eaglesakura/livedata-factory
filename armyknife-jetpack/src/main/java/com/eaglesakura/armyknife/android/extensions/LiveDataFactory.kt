@@ -8,6 +8,37 @@ import androidx.lifecycle.MediatorLiveData
  */
 @Suppress("unused")
 object LiveDataFactory {
+
+    /**
+     * Live data write filter.
+     * when `source` data on updated, then check filter function.
+     * If it returns `true`, then write dst live data.
+     *
+     * e.g.)
+     *
+     * val origin = MutableLiveData<String>()
+     * val secureUrl = LiveDataFactory.filter(origin) { it.startsWith("https://") }
+     * assertNotEquals(origin, secureUrl)
+     *
+     * origin.value = "http://example.com"
+     * assertNull(secureUrl.value)
+     *
+     * origin.value = "https://example.com"
+     * assertEquals("https://example.com", secureUrl.value)
+     *
+     * @param source original LiveData
+     * @param filter if write dst value, then return true.
+     */
+    fun <T> filter(source: LiveData<T>, filter: (value: T?) -> Boolean): LiveData<T> {
+        return MediatorLiveData<T>().also { result ->
+            result.addSource(source) {
+                if (filter(it)) {
+                    result.value = it
+                }
+            }
+        }
+    }
+
     /**
      * 1 live data to 1 data.
      */
@@ -255,31 +286,4 @@ object LiveDataFactory {
             }
         }
     }
-
-//    internal class AsyncLiveData<T>(
-//        private val context: CoroutineContext,
-//        private val factory: suspend (self: LiveData<T>) -> T?
-//    ) : LiveData<T>(), CoroutineScope {
-//
-//        private var scope: CoroutineContext? = null
-//
-//        override val coroutineContext: CoroutineContext
-//            get() = scope!!
-//
-//        override fun onActive() {
-//            scope = (context + Job())
-//            launch(coroutineContext) {
-//                val value = factory(this@AsyncLiveData)
-//                yield()
-//                withContext(Dispatchers.Main) {
-//                    this@AsyncLiveData.value = value
-//                }
-//            }
-//        }
-//
-//        override fun onInactive() {
-//            scope?.cancel()
-//            scope = null
-//        }
-//    }
 }
