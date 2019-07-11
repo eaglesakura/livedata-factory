@@ -6,7 +6,11 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.MainThread
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelLazy
 
 /**
  * Find interface by Activity and children.
@@ -54,3 +58,21 @@ fun Activity.closeIME(focus: View) {
     } catch (e: Exception) {
     }
 }
+
+/**
+ * Get ViewModel from Fragment with SavedStateViewModelFactory.
+ *
+ * e.g.)
+ *
+ * class ExampleFragment: Fragment() {
+ *      val viewModel: ExampleViewModel by savedStateViewModels()
+ * }
+ *
+ * @see SavedStateViewModelFactory
+ */
+@MainThread
+inline fun <reified VM : ViewModel> FragmentActivity.savedStateViewModels() = ViewModelLazy(
+    viewModelClass = VM::class,
+    storeProducer = { viewModelStore },
+    factoryProducer = { SavedStateViewModelFactory(this) }
+)

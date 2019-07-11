@@ -2,8 +2,12 @@
 
 package com.eaglesakura.armyknife.android.extensions
 
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.createViewModelLazy
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModel
 import com.eaglesakura.armyknife.runtime.extensions.instanceOf
 import kotlin.reflect.KClass
 
@@ -78,3 +82,40 @@ inline fun <reified T> Fragment.findInterface(): T? {
 
     return null
 }
+
+/**
+ * Get ViewModel from Fragment with SavedStateViewModelFactory.
+ *
+ * e.g.)
+ *
+ * class ExampleFragment: Fragment() {
+ *      val viewModel: ExampleViewModel by savedStateViewModels()
+ * }
+ *
+ * @see SavedStateViewModelFactory
+ */
+@MainThread
+inline fun <reified VM : ViewModel> Fragment.savedStateViewModels() = createViewModelLazy(
+    VM::class,
+    { viewModelStore },
+    { SavedStateViewModelFactory(this) }
+)
+
+/**
+ * Get ViewModel from FragmentActivity with SavedStateViewModelFactory.
+ *
+ * e.g.)
+ *
+ * class ExampleFragment: Fragment() {
+ *      val viewModel: ExampleViewModel by activitySavedStateViewModels()
+ * }
+ *
+ * @see androidx.fragment.app.FragmentActivity
+ * @see SavedStateViewModelFactory
+ */
+@MainThread
+inline fun <reified VM : ViewModel> Fragment.activitySavedStateViewModels() = createViewModelLazy(
+    VM::class,
+    { requireActivity().viewModelStore },
+    { SavedStateViewModelFactory(requireActivity()) }
+)
