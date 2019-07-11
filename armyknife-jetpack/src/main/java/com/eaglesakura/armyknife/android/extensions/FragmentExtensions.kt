@@ -6,8 +6,10 @@ import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.createViewModelLazy
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import com.eaglesakura.armyknife.runtime.extensions.instanceOf
 import kotlin.reflect.KClass
 
@@ -119,3 +121,22 @@ inline fun <reified VM : ViewModel> Fragment.activitySavedStateViewModels() = cr
     { requireActivity().viewModelStore },
     { SavedStateViewModelFactory(requireActivity()) }
 )
+
+/**
+ * Get SavedStateHandle for Fragment.
+ *
+ * e.g.)
+ *
+ * class ExampleFragment: Fragment() {
+ *
+ *      var url: String
+ *          get() = savedStateHandle.get("url")
+ *          set(value) = savedStateHandle.set("url", value)
+ * }
+ *
+ * @see SavedStateViewModelFactory
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+val Fragment.savedStateHandle: SavedStateHandle
+    get() = ViewModelProviders.of(this, SavedStateViewModelFactory(this))
+        .get(SavedStateHandleViewModel::class.java).savedStateHandle
