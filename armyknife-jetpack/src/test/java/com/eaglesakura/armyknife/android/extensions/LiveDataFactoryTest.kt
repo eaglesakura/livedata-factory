@@ -30,7 +30,30 @@ class LiveDataFactoryTest {
     }
 
     @Test
-    fun transform3() = compatibleBlockingTest(Dispatchers.Main) {
+    fun transform3_nullable() = compatibleBlockingTest(Dispatchers.Main) {
+        val text0 = MutableLiveData<String>()
+        val text1 = MutableLiveData<String>()
+        val text2 = MutableLiveData<String>()
+
+        val transformed = LiveDataFactory.transformNullable(text0, text1, text2) { a, b, c ->
+            "$a$b$c"
+        }
+        transformed.observeForever { }
+        yield()
+        text0.value = "A"
+        text1.value = "B"
+        yield()
+
+        assertEquals("ABnull", transformed.value)
+
+        text2.value = "C"
+
+        yield()
+        assertEquals("ABC", transformed.value)
+    }
+
+    @Test
+    fun transform3_nonnull() = compatibleBlockingTest(Dispatchers.Main) {
         val text0 = MutableLiveData<String>()
         val text1 = MutableLiveData<String>()
         val text2 = MutableLiveData<String>()
@@ -39,9 +62,13 @@ class LiveDataFactoryTest {
             "$a$b$c"
         }
         transformed.observeForever { }
-
+        yield()
         text0.value = "A"
         text1.value = "B"
+        yield()
+
+        assertEquals(null, transformed.value)
+
         text2.value = "C"
 
         yield()

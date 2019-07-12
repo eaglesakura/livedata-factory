@@ -2,6 +2,7 @@ package com.eaglesakura.armyknife.android.extensions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 
 /**
  * LiveData factory for some use case.
@@ -29,7 +30,7 @@ object LiveDataFactory {
      * @param source original LiveData
      * @param filter if write dst value, then return true.
      */
-    fun <T> filter(source: LiveData<T>, filter: (value: T?) -> Boolean): LiveData<T> {
+    fun <T> filter(source: LiveData<T>, filter: (value: T?) -> Boolean): MutableLiveData<T> {
         return MediatorLiveData<T>().also { result ->
             result.addSource(source) {
                 if (filter(it)) {
@@ -44,8 +45,8 @@ object LiveDataFactory {
      */
     fun <A, T> transform(
         a: LiveData<A>,
-        mapper: (a: A) -> T?
-    ): LiveData<T> {
+        mapper: (a: A) -> T
+    ): MutableLiveData<T> {
         return MediatorLiveData<T>().also { result ->
             result.addSource(a) {
                 result.value = mapper(a.value ?: return@addSource)
@@ -54,13 +55,27 @@ object LiveDataFactory {
     }
 
     /**
+     * 1 live data to 1 data.
+     */
+    fun <A, T> transformNullable(
+        a: LiveData<A>,
+        mapper: (a: A?) -> T?
+    ): MutableLiveData<T> {
+        return MediatorLiveData<T>().also { result ->
+            result.addSource(a) {
+                result.value = mapper(a.value)
+            }
+        }
+    }
+
+    /**
      * 2 live data to 1 data.
      */
-    fun <A, B, T> transform(
+    fun <A, B, T> transformNullable(
         a: LiveData<A>,
         b: LiveData<B>,
         mapper: (a: A?, b: B?) -> T?
-    ): LiveData<T> {
+    ): MutableLiveData<T> {
         return MediatorLiveData<T>().also { result ->
             result.addSource(a) {
                 result.value = mapper(a.value, b.value)
@@ -72,14 +87,32 @@ object LiveDataFactory {
     }
 
     /**
+     * 2 live data to 1 data.
+     */
+    fun <A, B, T> transform(
+        a: LiveData<A>,
+        b: LiveData<B>,
+        mapper: (a: A, b: B) -> T?
+    ): MutableLiveData<T> {
+        return MediatorLiveData<T>().also { result ->
+            result.addSource(a) {
+                result.value = mapper(a.value ?: return@addSource, b.value ?: return@addSource)
+            }
+            result.addSource(b) {
+                result.value = mapper(a.value ?: return@addSource, b.value ?: return@addSource)
+            }
+        }
+    }
+
+    /**
      * 3 live data to 1 data.
      */
-    fun <A, B, C, T> transform(
+    fun <A, B, C, T> transformNullable(
         a: LiveData<A>,
         b: LiveData<B>,
         c: LiveData<C>,
         mapper: (a: A?, b: B?, c: C?) -> T?
-    ): LiveData<T> {
+    ): MutableLiveData<T> {
         return MediatorLiveData<T>().also { result ->
             result.addSource(a) {
                 result.value = mapper(
@@ -106,15 +139,49 @@ object LiveDataFactory {
     }
 
     /**
+     * 3 live data to 1 data.
+     */
+    fun <A, B, C, T> transform(
+        a: LiveData<A>,
+        b: LiveData<B>,
+        c: LiveData<C>,
+        mapper: (a: A, b: B, c: C) -> T
+    ): MutableLiveData<T> {
+        return MediatorLiveData<T>().also { result ->
+            result.addSource(a) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource
+                )
+            }
+            result.addSource(b) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource
+                )
+            }
+            result.addSource(c) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource
+                )
+            }
+        }
+    }
+
+    /**
      * 4 live data to 1 data.
      */
-    fun <A, B, C, D, T> transform(
+    fun <A, B, C, D, T> transformNullable(
         a: LiveData<A>,
         b: LiveData<B>,
         c: LiveData<C>,
         d: LiveData<D>,
         mapper: (a: A?, b: B?, c: C?, d: D?) -> T?
-    ): LiveData<T> {
+    ): MutableLiveData<T> {
         return MediatorLiveData<T>().also { result ->
             result.addSource(a) {
                 result.value = mapper(
@@ -152,16 +219,62 @@ object LiveDataFactory {
     }
 
     /**
+     * 4 live data to 1 data.
+     */
+    fun <A, B, C, D, T> transform(
+        a: LiveData<A>,
+        b: LiveData<B>,
+        c: LiveData<C>,
+        d: LiveData<D>,
+        mapper: (a: A, b: B, c: C, d: D) -> T
+    ): MutableLiveData<T> {
+        return MediatorLiveData<T>().also { result ->
+            result.addSource(a) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource
+                )
+            }
+            result.addSource(b) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource
+                )
+            }
+            result.addSource(c) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource
+                )
+            }
+            result.addSource(d) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource
+                )
+            }
+        }
+    }
+
+    /**
      * 5 live data to 1 data.
      */
-    fun <A, B, C, D, E, T> transform(
+    fun <A, B, C, D, E, T> transformNullable(
         a: LiveData<A>,
         b: LiveData<B>,
         c: LiveData<C>,
         d: LiveData<D>,
         e: LiveData<E>,
         mapper: (a: A?, b: B?, c: C?, d: D?, e: E?) -> T?
-    ): LiveData<T> {
+    ): MutableLiveData<T> {
         return MediatorLiveData<T>().also { result ->
             result.addSource(a) {
                 result.value = mapper(
@@ -212,9 +325,69 @@ object LiveDataFactory {
     }
 
     /**
+     * 5 live data to 1 data.
+     */
+    fun <A, B, C, D, E, T> transform(
+        a: LiveData<A>,
+        b: LiveData<B>,
+        c: LiveData<C>,
+        d: LiveData<D>,
+        e: LiveData<E>,
+        mapper: (a: A, b: B, c: C, d: D, e: E) -> T
+    ): MutableLiveData<T> {
+        return MediatorLiveData<T>().also { result ->
+            result.addSource(a) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource
+                )
+            }
+            result.addSource(b) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource
+                )
+            }
+            result.addSource(c) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource
+                )
+            }
+            result.addSource(d) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource
+                )
+            }
+            result.addSource(e) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource
+                )
+            }
+        }
+    }
+
+    /**
      * 6 live data to 1 data.
      */
-    fun <A, B, C, D, E, F, T> transform(
+    fun <A, B, C, D, E, F, T> transformNullable(
         a: LiveData<A>,
         b: LiveData<B>,
         c: LiveData<C>,
@@ -222,7 +395,7 @@ object LiveDataFactory {
         e: LiveData<E>,
         f: LiveData<F>,
         mapper: (a: A?, b: B?, c: C?, d: D?, e: E?, f: F?) -> T?
-    ): LiveData<T> {
+    ): MutableLiveData<T> {
         return MediatorLiveData<T>().also { result ->
             result.addSource(a) {
                 result.value = mapper(
@@ -282,6 +455,82 @@ object LiveDataFactory {
                     d.value,
                     e.value,
                     f.value
+                )
+            }
+        }
+    }
+
+    /**
+     * 6 live data to 1 data.
+     */
+    fun <A, B, C, D, E, F, T> transform(
+        a: LiveData<A>,
+        b: LiveData<B>,
+        c: LiveData<C>,
+        d: LiveData<D>,
+        e: LiveData<E>,
+        f: LiveData<F>,
+        mapper: (a: A, b: B, c: C, d: D, e: E, f: F) -> T
+    ): MutableLiveData<T> {
+        return MediatorLiveData<T>().also { result ->
+            result.addSource(a) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource,
+                    f.value ?: return@addSource
+                )
+            }
+            result.addSource(b) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource,
+                    f.value ?: return@addSource
+                )
+            }
+            result.addSource(c) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource,
+                    f.value ?: return@addSource
+                )
+            }
+            result.addSource(d) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource,
+                    f.value ?: return@addSource
+                )
+            }
+            result.addSource(e) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource,
+                    f.value ?: return@addSource
+                )
+            }
+            result.addSource(f) {
+                result.value = mapper(
+                    a.value ?: return@addSource,
+                    b.value ?: return@addSource,
+                    c.value ?: return@addSource,
+                    d.value ?: return@addSource,
+                    e.value ?: return@addSource,
+                    f.value ?: return@addSource
                 )
             }
         }
