@@ -3,6 +3,7 @@ package com.eaglesakura.armyknife.android.extensions
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
+import com.eaglesakura.armyknife.android.junit4.extensions.makeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -83,5 +84,25 @@ class LiveDataExtensionsKtTest {
         liveData.setValueIfChanged("End") { oldValue, newValue -> oldValue == newValue }
         yield()
         assertEquals(2, notifyCount) // notify
+    }
+
+    @Test
+    fun copyTo() = compatibleBlockingTest(Dispatchers.Main) {
+        val activity = makeActivity()
+        val src = MutableLiveData<String>()
+        val dst = MutableLiveData<String>()
+
+        src.value = "ABC"
+        src.copyTo(activity, dst)
+        yield()
+        assertEquals("ABC", dst.value)
+
+        src.value = "DEF"
+        yield()
+        assertEquals("DEF", dst.value)
+
+        src.value = null
+        yield()
+        assertEquals(null, dst.value)
     }
 }

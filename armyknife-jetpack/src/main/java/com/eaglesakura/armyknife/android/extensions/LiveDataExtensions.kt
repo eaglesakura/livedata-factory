@@ -198,8 +198,36 @@ fun <T> MutableLiveData<T>.setValueIfChanged(newValue: T?) {
  * url.setValueIfChanged("https://example.com") { oldValue == newValue } // notify observers to 'https://example.com'
  * url.setValueIfChanged("https://example.com") { oldValue == newValue } // not notify.
  */
-fun <T> MutableLiveData<T>.setValueIfChanged(newValue: T?, equals: (oldValue: T?, newValue: T?) -> Boolean) {
+fun <T> MutableLiveData<T>.setValueIfChanged(
+    newValue: T?,
+    equals: (oldValue: T?, newValue: T?) -> Boolean
+) {
     if (!equals(this.value, newValue)) {
         this.value = newValue
     }
+}
+
+/**
+ * Copy liveData.
+ *
+ * e.g.)
+ * val repository: LiveData<ExampleRepository>
+ * val url: LiveData<String>
+ *
+ * fun observeRepository(example: ExampleRepository) {
+ *      // copy to other live-data.
+ *      example.urlLiveData.copyTo(lifecycleOwner, url)
+ * }
+ *
+ * @return `dst` object.
+ */
+fun <T> LiveData<T>.copyTo(
+    lifecycleOwner: LifecycleOwner,
+    dst: MutableLiveData<T>
+): MutableLiveData<T> {
+    dst.value = this.value
+    this.observeAlive(lifecycleOwner, Observer {
+        dst.value = it
+    })
+    return dst
 }
