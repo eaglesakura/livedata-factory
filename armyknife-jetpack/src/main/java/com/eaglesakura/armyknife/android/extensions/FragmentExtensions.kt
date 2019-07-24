@@ -2,10 +2,13 @@
 
 package com.eaglesakura.armyknife.android.extensions
 
+import android.content.Context
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.createViewModelLazy
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModel
@@ -140,3 +143,18 @@ inline fun <reified VM : ViewModel> Fragment.activitySavedStateViewModels() = cr
 val Fragment.savedStateHandle: SavedStateHandle
     get() = ViewModelProviders.of(this, SavedStateViewModelFactory(this))
         .get(SavedStateHandleViewModel::class.java).savedStateHandle
+
+/**
+ * Context set to external live data.
+ * when Fragment was destroyed, then set null.
+ */
+fun Fragment.contextInto(liveData: MutableLiveData<Context>) {
+    liveData.value = this.activity
+    this.lifecycle.subscribe { event ->
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            liveData.value = null
+        } else {
+            liveData.setValueIfChanged(this.activity)
+        }
+    }
+}

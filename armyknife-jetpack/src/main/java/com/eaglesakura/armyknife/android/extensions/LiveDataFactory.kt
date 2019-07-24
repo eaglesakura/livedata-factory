@@ -1,5 +1,8 @@
 package com.eaglesakura.armyknife.android.extensions
 
+import android.content.Context
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +12,28 @@ import androidx.lifecycle.MutableLiveData
  */
 @Suppress("unused")
 object LiveDataFactory {
+
+    /**
+     * Context LiveData from Fragment.
+     * when the Fragment will destroyed, then set null.
+     *
+     * @see Fragment.contextInto
+     */
+    fun contextFrom(fragment: Fragment): LiveData<Context> {
+        return MutableLiveData<Context>()
+            .also { fragment.contextInto(it) }
+    }
+
+    /**
+     * Context LiveData from Activity.
+     * when the Activity will destroyed, then set null.
+     *
+     * @see FragmentActivity.contextInto
+     */
+    fun contextFrom(activity: FragmentActivity): LiveData<Context> {
+        return MutableLiveData<Context>()
+            .also { activity.contextInto(it) }
+    }
 
     /**
      * Live data write filter.

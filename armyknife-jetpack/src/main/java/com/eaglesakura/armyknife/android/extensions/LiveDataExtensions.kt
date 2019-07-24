@@ -221,6 +221,7 @@ fun <T> MutableLiveData<T>.setValueIfChanged(
  *
  * @return `dst` object.
  */
+@Deprecated("This extension has memory-leak bug.")
 fun <T> LiveData<T>.copyTo(
     lifecycleOwner: LifecycleOwner,
     dst: MutableLiveData<T>

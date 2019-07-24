@@ -8,6 +8,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.MainThread
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModel
@@ -98,3 +100,22 @@ inline fun <reified VM : ViewModel> FragmentActivity.savedStateViewModels() = Vi
 val FragmentActivity.savedStateHandle: SavedStateHandle
     get() = ViewModelProviders.of(this, SavedStateViewModelFactory(this))
         .get(SavedStateHandleViewModel::class.java).savedStateHandle
+
+/**
+ * Context set to external live data.
+ * when Activity was destroyed, then set null.
+ */
+fun FragmentActivity.contextInto(liveData: MutableLiveData<Context>) {
+    val activity = this
+    val lifecycle = this.lifecycle
+    if (lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED)) {
+        liveData.value = activity
+    }
+    lifecycle.subscribe { event ->
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            liveData.value = null
+        } else {
+            liveData.setValueIfChanged(activity)
+        }
+    }
+}
