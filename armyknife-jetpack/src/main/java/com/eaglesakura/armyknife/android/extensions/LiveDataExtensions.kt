@@ -83,11 +83,13 @@ suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T {
             channel.send(Dispatchers.Main, newValue)
         }
     }
-    try {
-        observeForever(observer)
-        return channel.receive()
-    } finally {
-        removeObserver(observer)
+    return withContext(Dispatchers.Main) {
+        try {
+            observeForever(observer)
+            channel.receive()
+        } finally {
+            removeObserver(observer)
+        }
     }
 }
 
