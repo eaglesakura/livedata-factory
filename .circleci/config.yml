@@ -12,8 +12,8 @@ executors:
       - image: circleci/android:api-28-alpha
     environment:
       TZ: Asia/Tokyo
-      _JAVA_OPTIONS: -Xmx4g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
-      GRADLE_OPTS: -Xmx4g -Dorg.gradle.daemon=false
+      _JAVA_OPTIONS: -Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+      GRADLE_OPTS: -Xmx3g -Dorg.gradle.daemon=false
   kotlin-jdk8:
     working_directory: /home/circleci/project
     docker:
@@ -127,7 +127,9 @@ jobs:
           module-path: << parameters.module-path >>
       - run:
           name: local-test
-          command: ./gradlew "<< parameters.localTestTask >>"
+          command: |
+            ./gradlew compileDebugSources
+            ./gradlew "<< parameters.localTestTask >>"
 #      - run:
 #          name: instrumentation
 #          command: ./gradlew "<< parameters.instrumentationTestTask >>"
