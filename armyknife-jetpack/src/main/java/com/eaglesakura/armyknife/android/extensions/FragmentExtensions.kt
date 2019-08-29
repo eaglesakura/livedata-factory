@@ -2,6 +2,7 @@
 
 package com.eaglesakura.armyknife.android.extensions
 
+import android.app.Application
 import android.content.Context
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
@@ -103,7 +104,7 @@ inline fun <reified T> Fragment.findInterface(): T? {
 inline fun <reified VM : ViewModel> Fragment.savedStateViewModels() = createViewModelLazy(
     VM::class,
     { viewModelStore },
-    { SavedStateViewModelFactory(this) }
+    { SavedStateViewModelFactory(requireContext().applicationContext as Application, this) }
 )
 
 /**
@@ -122,7 +123,12 @@ inline fun <reified VM : ViewModel> Fragment.savedStateViewModels() = createView
 inline fun <reified VM : ViewModel> Fragment.activitySavedStateViewModels() = createViewModelLazy(
     VM::class,
     { requireActivity().viewModelStore },
-    { SavedStateViewModelFactory(requireActivity()) }
+    {
+        SavedStateViewModelFactory(
+            requireContext().applicationContext as Application,
+            requireActivity()
+        )
+    }
 )
 
 /**
@@ -141,8 +147,10 @@ inline fun <reified VM : ViewModel> Fragment.activitySavedStateViewModels() = cr
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 val Fragment.savedStateHandle: SavedStateHandle
-    get() = ViewModelProviders.of(this, SavedStateViewModelFactory(this))
-        .get(SavedStateHandleViewModel::class.java).savedStateHandle
+    get() = ViewModelProviders.of(
+        this,
+        SavedStateViewModelFactory(requireContext().applicationContext as Application, this)
+    ).get(SavedStateHandleViewModel::class.java).savedStateHandle
 
 /**
  * Context set to external live data.

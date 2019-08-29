@@ -9,13 +9,13 @@ dependencies {
 
     "api"("com.eaglesakura.armyknife.armyknife-runtime:armyknife-runtime:1.3.3")
 
-    "androidTestImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0-alpha02")
-    "testImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0-alpha02")
+    "androidTestImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0-alpha03")
+    "testImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0-alpha03")
 //    "kapt"("androidx.lifecycle:lifecycle-compiler:2.0.0")
     "testImplementation"("androidx.arch.core:core-testing:2.0.1")
     "testImplementation"("androidx.paging:paging-common:2.1.0")
     "androidTestImplementation"("androidx.paging:paging-common:2.1.0")
 //    "kapt"("androidx.room:room-compiler:2.1.0")
     "testImplementation"("androidx.room:room-testing:2.1.0")
-    "androidTestImplementation"("androidx.work:work-testing:2.0.1")
+    "androidTestImplementation"("androidx.work:work-testing:2.2.0")
 }

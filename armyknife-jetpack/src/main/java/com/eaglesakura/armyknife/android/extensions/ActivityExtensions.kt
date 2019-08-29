@@ -3,6 +3,7 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -79,7 +80,7 @@ fun Activity.closeIME(focus: View) {
 inline fun <reified VM : ViewModel> FragmentActivity.savedStateViewModels() = ViewModelLazy(
     viewModelClass = VM::class,
     storeProducer = { viewModelStore },
-    factoryProducer = { SavedStateViewModelFactory(this) }
+    factoryProducer = { SavedStateViewModelFactory(applicationContext as Application, this) }
 )
 
 /**
@@ -98,7 +99,10 @@ inline fun <reified VM : ViewModel> FragmentActivity.savedStateViewModels() = Vi
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 val FragmentActivity.savedStateHandle: SavedStateHandle
-    get() = ViewModelProviders.of(this, SavedStateViewModelFactory(this))
+    get() = ViewModelProviders.of(
+        this,
+        SavedStateViewModelFactory(applicationContext as Application, this)
+    )
         .get(SavedStateHandleViewModel::class.java).savedStateHandle
 
 /**

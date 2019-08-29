@@ -12,6 +12,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
     // for Kotlin-Android
     androidExtensions {
         experimental = true
@@ -22,7 +26,6 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
-        aaptOptions.cruncherEnabled false
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'proguard-rules.pro'
     }

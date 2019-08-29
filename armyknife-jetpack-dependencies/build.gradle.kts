@@ -18,8 +18,8 @@ dependencies {
      */
     "api"("io.reactivex.rxjava2:rxkotlin:2.3.0")  // Reactive Extension
     "api"("io.reactivex.rxjava2:rxandroid:2.1.1")   // Reactive Extension
-    "api"("androidx.activity:activity:1.0.0-rc01")
-    "api"("androidx.activity:activity-ktx:1.0.0-rc01")
+    "api"("androidx.activity:activity:1.1.0-alpha02")
+    "api"("androidx.activity:activity-ktx:1.1.0-alpha02")
     "api"("androidx.annotation:annotation:1.1.0")
     "api"("androidx.appcompat:appcompat:1.1.0-rc01")
     "api"("androidx.appcompat:appcompat-resources:1.1.0-rc01")
@@ -33,7 +33,7 @@ dependencies {
     "api"("androidx.fragment:fragment-ktx:1.0.0")
     "api"("androidx.lifecycle:lifecycle-extensions:2.0.0")
     "api"("androidx.lifecycle:lifecycle-viewmodel:2.0.0")
-    "api"("androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha02")
+    "api"("androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha03")
     "api"("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
     "api"("androidx.lifecycle:lifecycle-runtime:2.0.0")
     "api"("androidx.lifecycle:lifecycle-common-java8:2.0.0")
@@ -44,28 +44,28 @@ dependencies {
     /**
      * Basic architecture
      */
-    "api"("androidx.concurrent:concurrent-futures:1.0.0-beta01")
+    "api"("androidx.concurrent:concurrent-futures:1.0.0-rc01")
     "api"("androidx.concurrent:concurrent-listenablefuture:1.0.0-beta01")
     "api"("androidx.concurrent:concurrent-listenablefuture-callback:1.0.0-beta01")
     "api"("androidx.loader:loader:1.0.0")
     "api"("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
     "api"("androidx.preference:preference:1.0.0")
-    "api"("androidx.work:work-runtime:2.1.0")
-    "api"("androidx.work:work-runtime-ktx:2.1.0")
-    "api"("androidx.work:work-rxjava2:2.1.0")
+    "api"("androidx.work:work-runtime:2.2.0")
+    "api"("androidx.work:work-runtime-ktx:2.2.0")
+    "api"("androidx.work:work-rxjava2:2.2.0")
     "api"("androidx.vectordrawable:vectordrawable:1.0.1")
     "api"("androidx.vectordrawable:vectordrawable-animated:1.0.0")
-    "api"("androidx.versionedparcelable:versionedparcelable:1.0.0")
+    "api"("androidx.versionedparcelable:versionedparcelable:1.1.0")
 
     /**
      * UI Modules
      */
     "api"("androidx.navigation:navigation-fragment:2.0.0")
     "api"("androidx.navigation:navigation-ui:2.0.0")
-    "api"("androidx.navigation:navigation-common-ktx:2.1.0-beta01")
-    "api"("androidx.navigation:navigation-fragment-ktx:2.1.0-beta01")
-    "api"("androidx.navigation:navigation-runtime-ktx:2.1.0-beta01")
-    "api"("androidx.navigation:navigation-ui-ktx:2.1.0-beta01")
+    "api"("androidx.navigation:navigation-common-ktx:2.2.0-alpha01")
+    "api"("androidx.navigation:navigation-fragment-ktx:2.2.0-alpha01")
+    "api"("androidx.navigation:navigation-runtime-ktx:2.2.0-alpha01")
+    "api"("androidx.navigation:navigation-ui-ktx:2.2.0-alpha01")
     "api"("androidx.paging:paging-runtime:2.1.0")
     "api"("androidx.paging:paging-rxjava2:2.1.0")
     "api"("androidx.asynclayoutinflater:asynclayoutinflater:1.0.0")
@@ -78,7 +78,7 @@ dependencies {
     "api"("androidx.recyclerview:recyclerview-selection:1.0.0")
     "api"("androidx.transition:transition:1.1.0")
     "api"("androidx.viewpager:viewpager:1.0.0")
-    "api"("androidx.viewpager2:viewpager2:1.0.0-beta01")
+    "api"("androidx.viewpager2:viewpager2:1.0.0-beta03")
     "api"("androidx.interpolator:interpolator:1.0.0")
 
     /**
@@ -101,15 +101,15 @@ dependencies {
     /**
      * Multi Media modules
      */
-    "api"("androidx.camera:camera-core:1.0.0-alpha03")
-    "api"("androidx.camera:camera-camera2:1.0.0-alpha03")
+    "api"("androidx.camera:camera-core:1.0.0-alpha04")
+    "api"("androidx.camera:camera-camera2:1.0.0-alpha04")
     "api"("androidx.exifinterface:exifinterface:1.0.0")
     "api"("androidx.gridlayout:gridlayout:1.0.0")
     "api"("androidx.heifwriter:heifwriter:1.0.0")
     "api"("androidx.media:media:1.0.1")
-    "api"("androidx.media2:media2-common:1.0.0-rc01")
-    "api"("androidx.media2:media2-player:1.0.0-rc01")
-    "api"("androidx.media2:media2-session:1.0.0-rc01")
+    "api"("androidx.media2:media2-common:1.0.0-rc02")
+    "api"("androidx.media2:media2-player:1.0.0-rc02")
+    "api"("androidx.media2:media2-session:1.0.0-rc02")
 
     /**
      * Database modules
@@ -128,7 +128,7 @@ dependencies {
     "api"("androidx.biometric:biometric:1.0.0-alpha04")
     "api"("androidx.car:car:1.0.0-alpha7")
     "api"("androidx.documentfile:documentfile:1.0.1")
-    "api"("androidx.enterprise:enterprise-feedback:1.0.0-alpha02")
+    "api"("androidx.enterprise:enterprise-feedback:1.0.0-alpha03")
     "api"("androidx.leanback:leanback:1.0.0")
     "api"("androidx.leanback:leanback-preference:1.0.0")
     "api"("androidx.print:print:1.0.0")
@@ -149,25 +149,25 @@ dependencies {
     "api"("com.google.android.gms:play-services-appinvite:18.0.0")
     "api"("com.google.android.gms:play-services-cast:17.0.0")
     "api"("com.google.android.gms:play-services-cast-framework:17.0.0")
-    "api"("com.google.android.gms:play-services-gass:18.1.0")
-    "api"("com.google.android.gms:play-services-measurement-api:17.0.1")
+    "api"("com.google.android.gms:play-services-gass:18.1.1")
+    "api"("com.google.android.gms:play-services-measurement-api:17.2.0")
     "api"("com.google.android.gms:play-services-tagmanager:17.0.0")
     "api"("com.google.android.gms:play-services-vision:18.0.0")
 
     /**
      * Firebase
      */
-    "api"("com.google.firebase:firebase-analytics:17.0.1")
-    "api"("com.google.firebase:firebase-dynamic-links:18.0.0")
-    "api"("com.google.firebase:firebase-iid:19.0.1")
-    "api"("com.google.firebase:firebase-messaging:19.0.1")
-    "api"("com.google.firebase:firebase-ml-common:20.0.1")
-    "api"("com.google.firebase:firebase-ml-model-interpreter:20.0.1")
-    "api"("com.google.firebase:firebase-ml-vision:22.0.0")
+    "api"("com.google.firebase:firebase-analytics:17.2.0")
+    "api"("com.google.firebase:firebase-dynamic-links:19.0.0")
+    "api"("com.google.firebase:firebase-iid:20.0.0")
+    "api"("com.google.firebase:firebase-messaging:20.0.0")
+    "api"("com.google.firebase:firebase-ml-common:21.0.0")
+    "api"("com.google.firebase:firebase-ml-model-interpreter:21.0.0")
+    "api"("com.google.firebase:firebase-ml-vision:23.0.0")
     "api"("com.google.firebase:firebase-ml-vision-image-label-model:18.0.0")
-    "api"("com.google.firebase:firebase-core:17.0.1")
+    "api"("com.google.firebase:firebase-core:17.2.0")
     "api"("com.google.firebase:firebase-invites:17.0.0")
-    "api"("com.google.firebase:firebase-perf:18.0.1")
-    "api"("com.google.firebase:firebase-auth:18.1.0")
-    "api"("com.google.firebase:firebase-config:18.0.0")
+    "api"("com.google.firebase:firebase-perf:19.0.0")
+    "api"("com.google.firebase:firebase-auth:19.0.0")
+    "api"("com.google.firebase:firebase-config:19.0.0")
 }
