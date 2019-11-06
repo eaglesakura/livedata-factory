@@ -149,10 +149,10 @@ dependencies {
     "api"("com.google.android.gms:play-services-appinvite:18.0.0")
     "api"("com.google.android.gms:play-services-cast:17.1.0")
     "api"("com.google.android.gms:play-services-cast-framework:17.1.0")
-    "api"("com.google.android.gms:play-services-gass:18.3.0")
     "api"("com.google.android.gms:play-services-measurement-api:17.2.1")
     "api"("com.google.android.gms:play-services-tagmanager:17.0.0")
     "api"("com.google.android.gms:play-services-vision:19.0.0")
+//    "api"("com.google.android.gms:play-services-gass:18.3.0") // AdMob library.
 
     /**
      * Firebase

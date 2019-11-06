@@ -4,6 +4,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
+import com.eaglesakura.armyknife.runtime.extensions.withChildContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -13,7 +14,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import kotlin.coroutines.CoroutineContext
 
@@ -115,7 +115,7 @@ fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () 
  * @link https://github.com/eaglesakura/army-knife
  */
 suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
-    withContext(Dispatchers.Main) {
+    withChildContext(Dispatchers.Main) {
         yield()
 
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
@@ -123,7 +123,7 @@ suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
         }
 
         if (lifecycle.currentState == targetEvent) {
-            return@withContext
+            return@withChildContext
         }
 
         val channel = Channel<Lifecycle.Event>()

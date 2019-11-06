@@ -2,18 +2,21 @@
 
 package com.eaglesakura.armyknife.android.extensions
 
+import android.annotation.SuppressLint
+import androidx.annotation.AnyThread
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.eaglesakura.armyknife.runtime.extensions.send
+import com.eaglesakura.armyknife.runtime.extensions.withChildContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -83,7 +86,7 @@ suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T {
             channel.send(Dispatchers.Main, newValue)
         }
     }
-    return withContext(Dispatchers.Main) {
+    return withChildContext(Dispatchers.Main) {
         try {
             observeForever(observer)
             channel.receive()
@@ -129,10 +132,10 @@ suspend fun <T> LiveData<T>.await(
         }
     }
 
-    return withContext(Dispatchers.Main) {
+    return withChildContext(Dispatchers.Main) {
         observeForever(observer)
         try {
-            return@withContext channel.receive()
+            return@withChildContext channel.receive()
         } finally {
             removeObserver(observer)
         }
@@ -150,10 +153,39 @@ fun <T> MutableLiveData<T>.setValueAsync(
 ) {
     val self = this
     GlobalScope.launch(context) {
-        val value = factory(self)
-        withContext(Dispatchers.Main) {
+        withChildContext(Dispatchers.Main) {
+            self.value = factory(self)
+        }
+    }
+}
+
+/**
+ * set value and await in any thread.
+ *
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+@AnyThread
+fun <T> MutableLiveData<T>.blockingSetValue(value: T?) {
+    if (onUiThread) {
+        @SuppressLint("WrongThread")
+        this.value = value
+    } else {
+        val self = this
+        runBlocking(Dispatchers.Main) {
             self.value = value
         }
+    }
+}
+
+/**
+ * set data in coroutines.
+ *
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+suspend fun <T> MutableLiveData<T>.setValueAsync(value: T?) {
+    val self = this
+    withChildContext(Dispatchers.Main) {
+        self.value = value
     }
 }
 
@@ -168,11 +200,9 @@ fun <T> MutableLiveData<T>.setValueAsync(
     factory: suspend (target: MutableLiveData<T>) -> T?
 ) {
     val self = this
-    scope.launch(context) {
+    scope.launch(Dispatchers.Main + context) {
         val value = factory(self)
-        withContext(Dispatchers.Main) {
-            self.value = value
-        }
+        self.value = value
     }
 }
 
