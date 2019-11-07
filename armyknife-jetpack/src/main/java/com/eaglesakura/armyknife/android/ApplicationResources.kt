@@ -23,7 +23,7 @@ object ApplicationResources {
      * Use to ImageLibrary, NetworkLibrary, or else.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @JvmStatic
     fun getDrawableUri(context: Context, @DrawableRes id: Int): Uri {
@@ -43,7 +43,7 @@ object ApplicationResources {
      * Use to ImageLibrary, NetworkLibrary, or else.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @JvmStatic
     fun getDrawableUri(context: Context, resName: String): Uri {
@@ -59,7 +59,7 @@ object ApplicationResources {
      * Load drawable resource with set tint color to it.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @JvmStatic
     fun getDrawable(context: Context, @DrawableRes resId: Int, @ColorInt tint: Int = 0): Drawable {
@@ -74,7 +74,7 @@ object ApplicationResources {
      * get string resources in res/values/strings.xml(or such else) by XML Resource name.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @JvmStatic
     fun getStringFromIdName(context: Context, resName: String): String? {
@@ -94,7 +94,7 @@ object ApplicationResources {
      * get string resources in res/values/strings.xml(or such else) by XML Resource name.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @JvmStatic
     fun getStringFromIdName(context: Context, resName: String, vararg arg: Any): String? {
@@ -115,7 +115,7 @@ object ApplicationResources {
      * get integer resources in res/values/integer.xml(or such else) by XML Resource name.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @JvmStatic
     fun getIntegerFromIdName(context: Context, resName: String): Int? {

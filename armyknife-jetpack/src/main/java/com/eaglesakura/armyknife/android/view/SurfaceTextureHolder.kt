@@ -9,7 +9,7 @@ import java.io.Closeable
  * This interface use preview of Camera.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Deprecated("Delete this, replace to 'CameraX' in Jetpack.")
 interface SurfaceTextureHolder : SurfaceHolder, Closeable {

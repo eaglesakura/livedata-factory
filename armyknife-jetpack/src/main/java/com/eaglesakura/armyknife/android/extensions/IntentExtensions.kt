@@ -13,6 +13,8 @@ import kotlin.reflect.KClass
  * * Parcelable object -> Parcelable.marshal()
  *
  * @see Parcelable.marshal
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Intent.putMarshalParcelableExtra(name: String, value: Parcelable?): Intent {
     putExtra("$name@class", value?.javaClass?.name)
@@ -25,7 +27,10 @@ fun Intent.putMarshalParcelableExtra(name: String, value: Parcelable?): Intent {
  *
  * * Class -> String(class.name)
  * * Parcelable object -> Parcelable.marshal()
+ *
  * @see Parcelable.marshal
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T : Parcelable> Intent.getMarshalParcelableExtra(name: String): T? {
     val clazz = getStringExtra("$name@class") ?: return null

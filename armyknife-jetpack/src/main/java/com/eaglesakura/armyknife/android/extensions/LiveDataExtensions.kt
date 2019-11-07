@@ -22,6 +22,9 @@ import kotlin.coroutines.CoroutineContext
 /**
  * LiveData force active.
  * when owner on destroy, then LiveData will be inactive.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> LiveData<T>.forceActiveAlive(owner: LifecycleOwner) {
     observeAlive(owner, Observer { /* drop value. */ })
@@ -69,6 +72,7 @@ fun <T> LiveData<T>.observeAlive(owner: LifecycleOwner, observer: Observer<T>) {
  * // await with filter
  * val url = liveData.await { it.startsWith("http") }
  *
+ * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T {
@@ -109,6 +113,7 @@ suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T {
  * // await with filter
  * val url = liveData.await { it.startsWith("http") }
  *
+ * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun <T> LiveData<T>.await(
@@ -145,6 +150,7 @@ suspend fun <T> LiveData<T>.await(
 /**
  * set data to live data.
  *
+ * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> MutableLiveData<T>.setValueAsync(
@@ -180,6 +186,7 @@ fun <T> MutableLiveData<T>.blockingSetValue(value: T?) {
 /**
  * set data in coroutines.
  *
+ * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun <T> MutableLiveData<T>.setValueAsync(value: T?) {
@@ -214,6 +221,9 @@ fun <T> MutableLiveData<T>.setValueAsync(
  * val url = MutableLiveData<String>()
  * url.setValueIfChanged("https://example.com") // notify observers to 'https://example.com'
  * url.setValueIfChanged("https://example.com") // not notify.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> MutableLiveData<T>.setValueIfChanged(newValue: T?) {
     if (this.value != newValue) {
@@ -229,6 +239,9 @@ fun <T> MutableLiveData<T>.setValueIfChanged(newValue: T?) {
  * val url = MutableLiveData<String>()
  * url.setValueIfChanged("https://example.com") { oldValue == newValue } // notify observers to 'https://example.com'
  * url.setValueIfChanged("https://example.com") { oldValue == newValue } // not notify.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> MutableLiveData<T>.setValueIfChanged(
     newValue: T?,

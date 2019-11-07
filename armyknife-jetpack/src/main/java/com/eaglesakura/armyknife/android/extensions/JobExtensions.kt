@@ -10,7 +10,7 @@ import kotlinx.coroutines.Job
  * When lifecycle on destroyed, then cancel job.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Job.with(lifecycle: Lifecycle) {
     val job = this
@@ -29,6 +29,9 @@ fun Job.with(lifecycle: Lifecycle) {
 
 /**
  * When lifecycle on background, then cancel job.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Job.withForeground(lifecycle: Lifecycle) {
     val job = this
