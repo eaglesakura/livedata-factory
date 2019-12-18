@@ -18,8 +18,8 @@ dependencies {
      */
     "api"("io.reactivex.rxjava2:rxkotlin:2.4.0")  // Reactive Extension
     "api"("io.reactivex.rxjava2:rxandroid:2.1.1")   // Reactive Extension
-    "api"("androidx.activity:activity:1.1.0-rc01")
-    "api"("androidx.activity:activity-ktx:1.1.0-rc01")
+    "api"("androidx.activity:activity:1.1.0-rc03")
+    "api"("androidx.activity:activity-ktx:1.1.0-rc03")
     "api"("androidx.annotation:annotation:1.1.0")
     "api"("androidx.appcompat:appcompat:1.1.0")
     "api"("androidx.appcompat:appcompat-resources:1.1.0")
@@ -33,7 +33,7 @@ dependencies {
     "api"("androidx.fragment:fragment-ktx:1.1.0")
     "api"("androidx.lifecycle:lifecycle-extensions:2.1.0")
     "api"("androidx.lifecycle:lifecycle-viewmodel:2.1.0")
-    "api"("androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc01")
+    "api"("androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc03")
     "api"("androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0")
     "api"("androidx.lifecycle:lifecycle-runtime:2.1.0")
     "api"("androidx.lifecycle:lifecycle-common-java8:2.1.0")
@@ -62,10 +62,10 @@ dependencies {
      */
     "api"("androidx.navigation:navigation-fragment:2.1.0")
     "api"("androidx.navigation:navigation-ui:2.1.0")
-    "api"("androidx.navigation:navigation-common-ktx:2.2.0-rc01")
-    "api"("androidx.navigation:navigation-fragment-ktx:2.2.0-rc01")
-    "api"("androidx.navigation:navigation-runtime-ktx:2.2.0-rc01")
-    "api"("androidx.navigation:navigation-ui-ktx:2.2.0-rc01")
+    "api"("androidx.navigation:navigation-common-ktx:2.2.0-rc03")
+    "api"("androidx.navigation:navigation-fragment-ktx:2.2.0-rc03")
+    "api"("androidx.navigation:navigation-runtime-ktx:2.2.0-rc03")
+    "api"("androidx.navigation:navigation-ui-ktx:2.2.0-rc03")
     "api"("androidx.paging:paging-runtime:2.1.0")
     "api"("androidx.paging:paging-rxjava2:2.1.0")
     "api"("androidx.asynclayoutinflater:asynclayoutinflater:1.0.0")
@@ -74,11 +74,11 @@ dependencies {
     "api"("androidx.slice:slice-builders-ktx:1.0.0-alpha6")
     "api"("androidx.slice:slice-core:1.0.0")
     "api"("androidx.slice:slice-view:1.0.0")
-    "api"("androidx.recyclerview:recyclerview:1.0.0")
+    "api"("androidx.recyclerview:recyclerview:1.1.0")
     "api"("androidx.recyclerview:recyclerview-selection:1.0.0")
     "api"("androidx.transition:transition:1.2.0")
     "api"("androidx.viewpager:viewpager:1.0.0")
-    "api"("androidx.viewpager2:viewpager2:1.0.0-rc01")
+    "api"("androidx.viewpager2:viewpager2:1.0.0")
     "api"("androidx.interpolator:interpolator:1.0.0")
 
     /**
@@ -101,9 +101,9 @@ dependencies {
     /**
      * Multi Media modules
      */
-    "api"("androidx.camera:camera-core:1.0.0-alpha06")
-    "api"("androidx.camera:camera-camera2:1.0.0-alpha06")
-    "api"("androidx.exifinterface:exifinterface:1.0.0")
+    "api"("androidx.camera:camera-core:1.0.0-alpha07")
+    "api"("androidx.camera:camera-camera2:1.0.0-alpha07")
+    "api"("androidx.exifinterface:exifinterface:1.1.0")
     "api"("androidx.gridlayout:gridlayout:1.0.0")
     "api"("androidx.heifwriter:heifwriter:1.0.0")
     "api"("androidx.media:media:1.1.0")
@@ -116,16 +116,16 @@ dependencies {
      */
     "api"("androidx.sqlite:sqlite:2.0.1")
     "api"("androidx.sqlite:sqlite-ktx:2.0.1")
-    "api"("androidx.room:room-runtime:2.2.1")
-    "api"("androidx.room:room-ktx:2.2.1")
-    "api"("androidx.room:room-rxjava2:2.2.1")
-    "api"("androidx.room:room-guava:2.2.1")
+    "api"("androidx.room:room-runtime:2.2.2")
+    "api"("androidx.room:room-ktx:2.2.2")
+    "api"("androidx.room:room-rxjava2:2.2.2")
+    "api"("androidx.room:room-guava:2.2.2")
 
     /**
      * External modules
      */
     "api"("androidx.browser:browser:1.0.0")
-    "api"("androidx.biometric:biometric:1.0.0-rc02")
+    "api"("androidx.biometric:biometric:1.0.0")
     "api"("androidx.car:car:1.0.0-alpha7")
     "api"("androidx.documentfile:documentfile:1.0.1")
     "api"("androidx.enterprise:enterprise-feedback:1.0.0-rc01")
@@ -135,11 +135,11 @@ dependencies {
     "api"("androidx.recommendation:recommendation:1.0.0")
     "api"("androidx.remotecallback:remotecallback:1.0.0-alpha02")
     "api"("androidx.security:security-crypto:1.0.0-alpha02")
-    "api"("androidx.sharetarget:sharetarget:1.0.0-beta01")
+    "api"("androidx.sharetarget:sharetarget:1.0.0-rc01")
     "api"("androidx.textclassifier:textclassifier:1.0.0-alpha02")
     "api"("androidx.tvprovider:tvprovider:1.0.0")
     "api"("androidx.wear:wear:1.0.0")
-    "api"("androidx.webkit:webkit:1.0.0")
+    "api"("androidx.webkit:webkit:1.1.0")
 
     /**
      * Google Play Services
@@ -147,8 +147,8 @@ dependencies {
     "api"("com.google.android.gms:play-services-auth:17.0.0")
     "api"("com.google.android.gms:play-services-analytics:17.0.0")
     "api"("com.google.android.gms:play-services-appinvite:18.0.0")
-    "api"("com.google.android.gms:play-services-cast:17.1.0")
-    "api"("com.google.android.gms:play-services-cast-framework:17.1.0")
+    "api"("com.google.android.gms:play-services-cast:18.0.0")
+    "api"("com.google.android.gms:play-services-cast-framework:18.0.0")
     "api"("com.google.android.gms:play-services-measurement-api:17.2.1")
     "api"("com.google.android.gms:play-services-tagmanager:17.0.0")
     "api"("com.google.android.gms:play-services-vision:19.0.0")
@@ -159,15 +159,15 @@ dependencies {
      */
     "api"("com.google.firebase:firebase-analytics:17.2.1")
     "api"("com.google.firebase:firebase-dynamic-links:19.0.0")
-    "api"("com.google.firebase:firebase-iid:20.0.0")
-    "api"("com.google.firebase:firebase-messaging:20.0.0")
-    "api"("com.google.firebase:firebase-ml-common:22.0.0")
-    "api"("com.google.firebase:firebase-ml-model-interpreter:22.0.0")
-    "api"("com.google.firebase:firebase-ml-vision:24.0.0")
+    "api"("com.google.firebase:firebase-iid:20.0.2")
+    "api"("com.google.firebase:firebase-messaging:20.1.0")
+    "api"("com.google.firebase:firebase-ml-common:22.0.1")
+    "api"("com.google.firebase:firebase-ml-model-interpreter:22.0.1")
+    "api"("com.google.firebase:firebase-ml-vision:24.0.1")
     "api"("com.google.firebase:firebase-ml-vision-image-label-model:19.0.0")
     "api"("com.google.firebase:firebase-core:17.2.1")
     "api"("com.google.firebase:firebase-invites:17.0.0")
-    "api"("com.google.firebase:firebase-perf:19.0.1")
-    "api"("com.google.firebase:firebase-auth:19.1.0")
-    "api"("com.google.firebase:firebase-config:19.0.3")
+    "api"("com.google.firebase:firebase-perf:19.0.3")
+    "api"("com.google.firebase:firebase-auth:19.2.0")
+    "api"("com.google.firebase:firebase-config:19.0.4")
 }
