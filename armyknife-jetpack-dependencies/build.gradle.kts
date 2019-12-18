@@ -18,6 +18,7 @@ dependencies {
      */
     "api"("io.reactivex.rxjava2:rxkotlin:2.4.0")  // Reactive Extension
     "api"("io.reactivex.rxjava2:rxandroid:2.1.1")   // Reactive Extension
+    "api"("com.annimon:stream:1.2.1")               // RxKotlin with Nullable value.
     "api"("androidx.activity:activity:1.1.0-rc03")
     "api"("androidx.activity:activity-ktx:1.1.0-rc03")
     "api"("androidx.annotation:annotation:1.1.0")
@@ -36,6 +37,8 @@ dependencies {
     "api"("androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc03")
     "api"("androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0")
     "api"("androidx.lifecycle:lifecycle-runtime:2.1.0")
+    "api"("androidx.lifecycle:lifecycle-runtime-ktx:2.1.0")
+    "api"("androidx.lifecycle:lifecycle-process:2.1.0")
     "api"("androidx.lifecycle:lifecycle-common-java8:2.1.0")
     "api"("androidx.lifecycle:lifecycle-reactivestreams:2.1.0")
     "api"("androidx.lifecycle:lifecycle-reactivestreams-ktx:2.1.0")

@@ -15,7 +15,10 @@ import kotlin.coroutines.CoroutineContext
  * When uses coroutines version 0.24.x then use this.
  */
 @Deprecated(message = "Revert specifications in 0.25.3, use runBlocking{}")
-fun <T> runBlockingInUI(context: CoroutineContext = Dispatchers.Default, block: suspend CoroutineScope.() -> T): T {
+fun <T> runBlockingInUI(
+    context: CoroutineContext = Dispatchers.Default,
+    block: suspend CoroutineScope.() -> T
+): T {
     assertUIThread()
     if (context == Dispatchers.Main) {
         throw IllegalArgumentException("UI context has been NOT supported.")
@@ -49,6 +52,7 @@ fun <T> runBlockingInUI(context: CoroutineContext = Dispatchers.Default, block: 
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
  */
+@Deprecated("replace to LifecycleOwner.lifecycleScope.launch()")
 fun CoroutineContext.with(lifecycle: Lifecycle) {
     val context = this
     lifecycle.subscribeWithCancel { event, cancel ->

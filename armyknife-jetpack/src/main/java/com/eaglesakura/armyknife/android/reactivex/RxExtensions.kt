@@ -64,12 +64,6 @@ fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
 fun Disposable.with(lifecycle: Lifecycle): Disposable {
     var origin: Disposable? = this
 
-//    PublishSubject.create<Int>()
-//            .buffer(2, 1)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe {
-//            }.with(lifecycle)
-
     lifecycle.subscribeWithCancel { event, cancel ->
         if (event == Lifecycle.Event.ON_DESTROY) {
             origin?.dispose()
@@ -92,11 +86,26 @@ fun Disposable.with(lifecycle: Lifecycle): Disposable {
 }
 
 /**
+ * A Disposable interface link to Lifecycle.
+ * When lifecycle to destroyed, then call Disposable.dispose() function.
+ *
+ * If Call "Disposable.dispose()" function before than destroyed.
+ * it is supported, you can it.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/army-knife
+ */
+fun Disposable.with(lifecycleOwner: LifecycleOwner): Disposable {
+    return with(lifecycleOwner.lifecycle)
+}
+
+/**
  * Subscribe value from any Observable with Lifecycle.
  *
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
  */
+@Deprecated("This function not working(can't call this. Compiler select to other overload functions).")
 fun <T> Observable<T>.subscribe(
     lifecycle: Lifecycle,
     onNext: ((next: T) -> Unit)?,
@@ -104,9 +113,9 @@ fun <T> Observable<T>.subscribe(
     onComplete: (() -> Unit)?
 ): Disposable {
     return subscribe(
-            { next -> onNext?.invoke(next) },
-            { err -> onError?.invoke(err) },
-            { onComplete?.invoke() }
+        { next -> onNext?.invoke(next) },
+        { err -> onError?.invoke(err) },
+        { onComplete?.invoke() }
     ).with(lifecycle)
 }
 
@@ -120,7 +129,6 @@ fun <T> Observable<T>.subscribe(
  */
 fun Lifecycle.toObservable(): Observable<Lifecycle.Event> {
     val result = PublishSubject.create<Lifecycle.Event>()
-
     addObserver(object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {

@@ -9,8 +9,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import com.annimon.stream.Optional
 import com.eaglesakura.armyknife.runtime.extensions.send
 import com.eaglesakura.armyknife.runtime.extensions.withChildContext
+import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -276,4 +280,26 @@ fun <T> LiveData<T>.copyTo(
         dst.value = it
     })
     return dst
+}
+
+/**
+ * LiveData convert to PublishSubject with Optional.
+ * RxJava is not support Nullable, however this util can support the Nullable value.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun <T> LiveData<T>.toNullablePublishSubject(lifecycle: LifecycleOwner): PublishSubject<Optional<T>> {
+    ProcessLifecycleOwner.get().lifecycleScope
+    val subject = PublishSubject.create<Optional<T>>()
+    lifecycle.lifecycle.subscribe {
+        if (it == Lifecycle.Event.ON_DESTROY) {
+            subject.onComplete()
+        }
+    }
+    this.observe(lifecycle, Observer {
+        subject.onNext(Optional.ofNullable(it))
+    })
+
+    return subject
 }
