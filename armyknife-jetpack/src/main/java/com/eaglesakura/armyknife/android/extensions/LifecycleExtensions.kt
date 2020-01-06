@@ -112,26 +112,65 @@ fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () 
  * }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
     withChildContext(Dispatchers.Main) {
         yield()
 
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
-            throw CancellationException("Lifecycle was destroyed")
-        }
-
-        if (lifecycle.currentState == targetEvent) {
             return@withChildContext
         }
 
         val channel = Channel<Lifecycle.Event>()
         lifecycle.subscribeWithCancel { event, cancel ->
-            if (event == targetEvent) {
+            if (event == targetEvent || event == Lifecycle.Event.ON_DESTROY) {
                 // resume coroutines
                 launch(Dispatchers.Main) {
                     channel.send(event)
+                }
+                cancel()
+                return@subscribeWithCancel
+            }
+
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                // do not receive!!
+                launch(Dispatchers.Main) {
+                    channel.close(CancellationException("Lifecycle on destroy"))
+                }
+            }
+        }
+        channel.receive()
+    }
+}
+
+/**
+ * Suspend current coroutines context until receive lifecycle event.
+ *
+ * e.g.)
+ * suspend fun awaitToResume() {
+ *      delay(fragment.lifecycle, Lifecycle.State.RESUMED)
+ *
+ *      // do something, fragment on resumed.
+ * }
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+suspend fun delay(lifecycle: Lifecycle, targetState: Lifecycle.State) {
+    withChildContext(Dispatchers.Main) {
+        yield()
+
+        if (lifecycle.currentState == targetState || lifecycle.currentState == Lifecycle.State.DESTROYED) {
+            return@withChildContext
+        }
+
+        val channel = Channel<Unit>()
+        lifecycle.subscribeWithCancel { event, cancel ->
+            if (lifecycle.currentState == targetState || event == Lifecycle.Event.ON_DESTROY) {
+                // resume coroutines
+                launch(Dispatchers.Main) {
+                    channel.send(Unit)
                 }
                 cancel()
                 return@subscribeWithCancel

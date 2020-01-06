@@ -59,13 +59,16 @@ fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
  * it is supported, you can it.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
-fun Disposable.with(lifecycle: Lifecycle): Disposable {
+fun Disposable.with(
+    lifecycle: Lifecycle,
+    disposeOn: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+): Disposable {
     var origin: Disposable? = this
 
     lifecycle.subscribeWithCancel { event, cancel ->
-        if (event == Lifecycle.Event.ON_DESTROY) {
+        if (event == disposeOn) {
             origin?.dispose()
             origin = null
 
@@ -93,10 +96,87 @@ fun Disposable.with(lifecycle: Lifecycle): Disposable {
  * it is supported, you can it.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
-fun Disposable.with(lifecycleOwner: LifecycleOwner): Disposable {
-    return with(lifecycleOwner.lifecycle)
+fun Disposable.with(
+    lifecycle: Lifecycle,
+    disposeOn: Lifecycle.State
+): Disposable {
+    var origin: Disposable? = this
+
+    lifecycle.subscribeWithCancel { _, cancel ->
+        if (lifecycle.currentState == disposeOn) {
+            origin?.dispose()
+            origin = null
+
+            cancel()
+        }
+    }
+
+    return object : Disposable {
+        override fun isDisposed(): Boolean {
+            return origin?.isDisposed ?: true
+        }
+
+        override fun dispose() {
+            origin?.dispose()
+            origin = null
+        }
+    }
+}
+
+/**
+ * A Disposable interface link to Lifecycle.
+ * When lifecycle to destroyed, then call Disposable.dispose() function.
+ *
+ * If Call "Disposable.dispose()" function before than destroyed.
+ * it is supported, you can it.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun Disposable.with(
+    lifecycle: Lifecycle,
+    disposeOn: (event: Lifecycle.Event) -> Boolean
+): Disposable {
+    var origin: Disposable? = this
+
+    lifecycle.subscribeWithCancel { event, cancel ->
+        if (disposeOn(event)) {
+            origin?.dispose()
+            origin = null
+
+            cancel()
+        }
+    }
+
+    return object : Disposable {
+        override fun isDisposed(): Boolean {
+            return origin?.isDisposed ?: true
+        }
+
+        override fun dispose() {
+            origin?.dispose()
+            origin = null
+        }
+    }
+}
+
+/**
+ * A Disposable interface link to Lifecycle.
+ * When lifecycle to destroyed, then call Disposable.dispose() function.
+ *
+ * If Call "Disposable.dispose()" function before than destroyed.
+ * it is supported, you can it.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun Disposable.with(
+    lifecycleOwner: LifecycleOwner,
+    disposeOn: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+): Disposable {
+    return with(lifecycleOwner.lifecycle, disposeOn)
 }
 
 /**
@@ -116,7 +196,7 @@ fun <T> Observable<T>.subscribe(
         { next -> onNext?.invoke(next) },
         { err -> onError?.invoke(err) },
         { onComplete?.invoke() }
-    ).with(lifecycle)
+    ).with(lifecycle, Lifecycle.Event.ON_DESTROY)
 }
 
 /**
@@ -139,4 +219,36 @@ fun Lifecycle.toObservable(): Observable<Lifecycle.Event> {
         }
     })
     return result
+}
+
+/**
+ * auto dispose with Lifecycle.State.
+ *
+ * e.g.)
+ *  autoDispose(lifecycleOwner, State.DESTROYED) {
+ *      makeObservable()
+ *  }
+ */
+inline fun autoDispose(
+    lifecycleOwner: LifecycleOwner,
+    disposeOn: Lifecycle.State,
+    block: () -> Disposable
+) {
+    block().with(lifecycleOwner.lifecycle, disposeOn)
+}
+
+/**
+ * auto dispose with Lifecycle.State.
+ *
+ * e.g.)
+ *  autoDispose(lifecycleOwner, Event.ON_DESTROY) {
+ *      makeObservable()
+ *  }
+ */
+inline fun autoDispose(
+    lifecycleOwner: LifecycleOwner,
+    disposeOn: Lifecycle.Event,
+    block: () -> Disposable
+) {
+    block().with(lifecycleOwner.lifecycle, disposeOn)
 }
