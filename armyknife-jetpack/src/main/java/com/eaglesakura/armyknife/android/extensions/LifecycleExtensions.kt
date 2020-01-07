@@ -119,12 +119,12 @@ suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
         yield()
 
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
-            return@withChildContext
+            throw CancellationException("Lifecycle destroyed")
         }
 
         val channel = Channel<Lifecycle.Event>()
         lifecycle.subscribeWithCancel { event, cancel ->
-            if (event == targetEvent || event == Lifecycle.Event.ON_DESTROY) {
+            if (event == targetEvent) {
                 // resume coroutines
                 launch(Dispatchers.Main) {
                     channel.send(event)
@@ -138,6 +138,7 @@ suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
                 launch(Dispatchers.Main) {
                     channel.close(CancellationException("Lifecycle on destroy"))
                 }
+                cancel()
             }
         }
         channel.receive()
@@ -161,13 +162,17 @@ suspend fun delay(lifecycle: Lifecycle, targetState: Lifecycle.State) {
     withChildContext(Dispatchers.Main) {
         yield()
 
-        if (lifecycle.currentState == targetState || lifecycle.currentState == Lifecycle.State.DESTROYED) {
+        if (lifecycle.currentState == targetState) {
             return@withChildContext
+        }
+
+        if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
+            throw CancellationException("Lifecycle destroyed")
         }
 
         val channel = Channel<Unit>()
         lifecycle.subscribeWithCancel { event, cancel ->
-            if (lifecycle.currentState == targetState || event == Lifecycle.Event.ON_DESTROY) {
+            if (lifecycle.currentState == targetState) {
                 // resume coroutines
                 launch(Dispatchers.Main) {
                     channel.send(Unit)
@@ -181,6 +186,7 @@ suspend fun delay(lifecycle: Lifecycle, targetState: Lifecycle.State) {
                 launch(Dispatchers.Main) {
                     channel.close(CancellationException("Lifecycle on destroy"))
                 }
+                cancel()
             }
         }
         channel.receive()

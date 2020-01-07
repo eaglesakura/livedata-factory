@@ -62,8 +62,24 @@ fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Disposable.with(
+    lifecycle: Lifecycle
+): Disposable {
+    return with(lifecycle, Lifecycle.Event.ON_DESTROY)
+}
+
+/**
+ * A Disposable interface link to Lifecycle.
+ * When lifecycle to destroyed, then call Disposable.dispose() function.
+ *
+ * If Call "Disposable.dispose()" function before than destroyed.
+ * it is supported, you can it.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun Disposable.with(
     lifecycle: Lifecycle,
-    disposeOn: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+    disposeOn: Lifecycle.Event
 ): Disposable {
     var origin: Disposable? = this
 
@@ -174,9 +190,25 @@ fun Disposable.with(
  */
 fun Disposable.with(
     lifecycleOwner: LifecycleOwner,
-    disposeOn: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
+    disposeOn: Lifecycle.Event
 ): Disposable {
     return with(lifecycleOwner.lifecycle, disposeOn)
+}
+
+/**
+ * A Disposable interface link to Lifecycle.
+ * When lifecycle to destroyed, then call Disposable.dispose() function.
+ *
+ * If Call "Disposable.dispose()" function before than destroyed.
+ * it is supported, you can it.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun Disposable.with(
+    lifecycleOwner: LifecycleOwner
+): Disposable {
+    return with(lifecycleOwner.lifecycle, disposeOn = Lifecycle.Event.ON_DESTROY)
 }
 
 /**
@@ -193,9 +225,9 @@ fun <T> Observable<T>.subscribe(
     onComplete: (() -> Unit)?
 ): Disposable {
     return subscribe(
-        { next -> onNext?.invoke(next) },
-        { err -> onError?.invoke(err) },
-        { onComplete?.invoke() }
+            { next -> onNext?.invoke(next) },
+            { err -> onError?.invoke(err) },
+            { onComplete?.invoke() }
     ).with(lifecycle, Lifecycle.Event.ON_DESTROY)
 }
 
