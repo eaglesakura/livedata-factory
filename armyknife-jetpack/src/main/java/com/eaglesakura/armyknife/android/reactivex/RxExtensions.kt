@@ -1,6 +1,7 @@
 package com.eaglesakura.armyknife.android.reactivex
 
 import androidx.annotation.CheckResult
+import androidx.annotation.Keep
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -242,6 +243,7 @@ fun <T> Observable<T>.subscribe(
 fun Lifecycle.toObservable(): Observable<Lifecycle.Event> {
     val result = PublishSubject.create<Lifecycle.Event>()
     addObserver(object : LifecycleObserver {
+        @Keep
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
             result.onNext(event)

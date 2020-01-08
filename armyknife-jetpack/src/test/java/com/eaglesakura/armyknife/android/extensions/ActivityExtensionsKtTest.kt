@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.ApplicationRuntime
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
-import com.eaglesakura.armyknife.android.junit4.extensions.inInstrumentationTest
 import com.eaglesakura.armyknife.android.junit4.extensions.makeActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -37,10 +38,10 @@ class ActivityExtensionsKtTest {
 
         assertEquals(activity, context.value)
         activity.finish()
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
         assertTrue(activity.isFinishing)
 
-        inInstrumentationTest {
+        if (ApplicationRuntime.runIn(ApplicationRuntime.RUNTIME_INSTRUMENTATION)) {
             assertEquals(Lifecycle.State.DESTROYED, activity.lifecycle.currentState)
             assertNull(context.value)
         }

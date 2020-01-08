@@ -1,5 +1,6 @@
 package com.eaglesakura.armyknife.android.extensions
 
+import androidx.annotation.Keep
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -25,6 +26,7 @@ import kotlin.coroutines.CoroutineContext
  *      // do something in worker.
  * }
  */
+@Deprecated("replace to 'LifecycleOwner.lifecycleScope.launch'")
 fun Lifecycle.launch(context: CoroutineContext, block: suspend CoroutineScope.() -> Unit): Job {
     val lifecycle = this
     return GlobalScope.launch(context) {
@@ -41,6 +43,7 @@ fun Lifecycle.launch(context: CoroutineContext, block: suspend CoroutineScope.()
  *      // do something in worker.
  * }
  */
+@Deprecated("replace to 'LifecycleOwner.lifecycleScope.launch'")
 fun <T> Lifecycle.async(
     context: CoroutineContext,
     block: suspend CoroutineScope.() -> T
@@ -63,10 +66,11 @@ fun <T> Lifecycle.async(
  * }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
     this.addObserver(object : LifecycleObserver {
+        @Keep
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
             receiver(event)
@@ -88,11 +92,12 @@ fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
  * }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () -> Unit) -> Unit) {
     val self = this
     self.addObserver(object : LifecycleObserver {
+        @Keep
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
             @Suppress("MoveLambdaOutsideParentheses")

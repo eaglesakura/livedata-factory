@@ -7,6 +7,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.util.concurrent.CancellationException
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -52,7 +53,6 @@ fun <T> runBlockingInUI(
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/army-knife
  */
-@Deprecated("replace to LifecycleOwner.lifecycleScope.launch()")
 fun CoroutineContext.with(lifecycle: Lifecycle) {
     val context = this
     lifecycle.subscribeWithCancel { event, cancel ->
@@ -61,7 +61,11 @@ fun CoroutineContext.with(lifecycle: Lifecycle) {
             return@subscribeWithCancel
         }
         if (event == Lifecycle.Event.ON_DESTROY) {
-            context.cancel()
+            try {
+                context.cancel(CancellationException("Lifecycle is destroyed."))
+            } catch (e: Throwable) {
+                // drop error.
+            }
             cancel()
         }
     }
