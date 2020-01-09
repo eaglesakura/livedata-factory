@@ -41,6 +41,19 @@ fun <T> LiveData<T>.forceActiveAlive(owner: LifecycleOwner) {
 }
 
 /**
+ * LiveData force active.
+ *
+ * CAUTION)
+ *  This live data CAN'T state change to inactive.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun <T> LiveData<T>.forceActiveForever() {
+    observeForever(ObserverWrapper(Observer { /* drop value. */ }))
+}
+
+/**
  * Observe data when Lifecycle alive.
  * This method call observe always(Example, Activity/Fragment paused and more).
  * If observer should handle data every time and always, May use this method.
