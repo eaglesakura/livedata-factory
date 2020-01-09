@@ -23,6 +23,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.CoroutineContext
 
+private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
+    override fun onChanged(t: T?) {
+        observer.onChanged(t)
+    }
+}
+
 /**
  * LiveData force active.
  * when owner on destroy, then LiveData will be inactive.
@@ -31,7 +37,7 @@ import kotlin.coroutines.CoroutineContext
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> LiveData<T>.forceActiveAlive(owner: LifecycleOwner) {
-    observeAlive(owner, Observer { /* drop value. */ })
+    observeAlive(owner, ObserverWrapper(Observer { /* drop value. */ }))
 }
 
 /**
