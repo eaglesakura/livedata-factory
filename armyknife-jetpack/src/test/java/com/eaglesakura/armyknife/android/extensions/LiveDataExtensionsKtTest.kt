@@ -1,18 +1,14 @@
 package com.eaglesakura.armyknife.android.extensions
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.eaglesakura.armyknife.android.junit4.extensions.compatibleBlockingTest
+import com.eaglesakura.armyknife.android.junit4.extensions.instrumentationBlockingTest
 import com.eaglesakura.armyknife.android.junit4.extensions.makeActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.plus
-import kotlinx.coroutines.withTimeout
-import kotlinx.coroutines.yield
+import kotlinx.coroutines.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -104,5 +100,43 @@ class LiveDataExtensionsKtTest {
         src.value = null
         yield()
         assertEquals(null, dst.value)
+    }
+
+    @Test
+    fun setValueWhenCreated() = instrumentationBlockingTest(Dispatchers.Main) {
+        val activity = makeActivity()
+        val liveData = MutableLiveData<String>()
+        liveData.setValueWhenCreated(activity, "OK")
+        yield()
+        assertEquals("OK", liveData.value)
+
+        activity.finish()
+        yield()
+
+        while (activity.lifecycle.currentState != Lifecycle.State.DESTROYED) {
+            yield()
+        }
+        yield()
+
+        assertNull(liveData.value)
+    }
+
+    @Test
+    fun setValueWhenResumed() = instrumentationBlockingTest(Dispatchers.Main) {
+        val activity = makeActivity()
+        val liveData = MutableLiveData<String>()
+        liveData.setValueWhenResumed(activity, "OK")
+        yield()
+        assertEquals("OK", liveData.value)
+
+        activity.finish()
+        yield()
+
+        while (activity.lifecycle.currentState != Lifecycle.State.DESTROYED) {
+            yield()
+        }
+        yield()
+
+        assertNull(liveData.value)
     }
 }

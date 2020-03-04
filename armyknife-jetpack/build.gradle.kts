@@ -18,6 +18,6 @@ dependencies {
 //    "kapt"("androidx.room:room-compiler:2.1.0")
 //    "kaptTest"("com.google.auto.service:auto-service:1.0-rc4")
 //    "kaptAndroidTest"("com.google.auto.service:auto-service:1.0-rc4")
-    "testImplementation"("androidx.room:room-testing:2.2.3")
-    "androidTestImplementation"("androidx.work:work-testing:2.2.0")
+    "testImplementation"("androidx.room:room-testing:2.2.4")
+    "androidTestImplementation"("androidx.work:work-testing:2.3.2")
 }

@@ -4,23 +4,13 @@ package com.eaglesakura.armyknife.android.extensions
 
 import android.annotation.SuppressLint
 import androidx.annotation.AnyThread
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import com.annimon.stream.Optional
 import com.eaglesakura.armyknife.runtime.extensions.send
 import com.eaglesakura.armyknife.runtime.extensions.withChildContext
 import io.reactivex.subjects.PublishSubject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.CoroutineContext
 
 private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
@@ -321,4 +311,48 @@ fun <T> LiveData<T>.toNullablePublishSubject(lifecycle: LifecycleOwner): Publish
     })
 
     return subject
+}
+
+/**
+ * Set value until Lifecycle destroy.
+ *
+ * e.g.)
+ * // this value set to null
+ * // on lifecycleOwner.onDestroy event.
+ * val liveData: MutableLiveData<String> = ...
+ * liveData.setValueWhenCreated(lifecycleOwner, "OK")
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun <T> MutableLiveData<T>.setValueWhenCreated(lifecycleOwner: LifecycleOwner, value: T?) {
+    val self = this
+    self.value = value
+    lifecycleOwner.lifecycle.subscribe { event ->
+        if (event == Lifecycle.Event.ON_DESTROY && self.value == value) {
+            self.value = null
+        }
+    }
+}
+
+/**
+ * Set value until Lifecycle destroy.
+ *
+ * e.g.)
+ * // this value set to null
+ * // on lifecycleOwner.onPause event.
+ * val liveData: MutableLiveData<String> = ...
+ * liveData.setValueWhenResumed(lifecycleOwner, "OK")
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+fun <T> MutableLiveData<T>.setValueWhenResumed(lifecycleOwner: LifecycleOwner, value: T?) {
+    val self = this
+    self.value = value
+    lifecycleOwner.lifecycle.subscribe { event ->
+        if (event == Lifecycle.Event.ON_PAUSE && self.value == value) {
+            self.value = null
+        }
+    }
 }
