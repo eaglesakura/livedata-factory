@@ -7,7 +7,7 @@ dependencies {
     "testImplementation"(project(":armyknife-jetpack-dependencies"))
     "androidTestImplementation"(project(":armyknife-jetpack-dependencies"))
 
-    "api"("com.eaglesakura.armyknife.armyknife-runtime:armyknife-runtime:1.3.6")
+    "api"("com.eaglesakura.armyknife.armyknife-runtime:armyknife-runtime:1.3.7")
 
     "androidTestImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0")
     "testImplementation"("androidx.enterprise:enterprise-feedback-testing:1.0.0")
@@ -19,5 +19,5 @@ dependencies {
 //    "kaptTest"("com.google.auto.service:auto-service:1.0-rc4")
 //    "kaptAndroidTest"("com.google.auto.service:auto-service:1.0-rc4")
     "testImplementation"("androidx.room:room-testing:2.2.4")
-    "androidTestImplementation"("androidx.work:work-testing:2.3.2")
+    "androidTestImplementation"("androidx.work:work-testing:2.3.3")
 }
