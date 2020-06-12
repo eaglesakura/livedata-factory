@@ -1,44 +1,46 @@
 group = artifact_group
 version = artifact_version
 
-if (project.hasProperty("install_snapshot")) {
-    apply plugin: 'maven'
-} else {
-    apply plugin: 'com.jfrog.bintray'
-    apply plugin: 'com.github.dcendents.android-maven'  // Generate POM for bintray.
-}
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 apply plugin: 'org.jetbrains.dokka-android'
 
 dokka {
     outputFormat = 'javadoc'
+    noStdlibLink = true
+    noAndroidSdkLink = true
 }
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    archiveClassifier.set('sources')
 }
+
 task javadocJar(type: Jar, dependsOn: dokka) {
     from "$buildDir/dokka"
-    classifier = 'javadoc'
-}
-android.libraryVariants.all { variant ->
-    if ("release" != variant.name || "" == artifact_version) {
-        return
-    }
-
-    artifacts {
-        archives javadocJar
-        archives sourcesJar
-    }
+    archiveClassifier.set('javadoc')
 }
 
 if (project.hasProperty("install_snapshot")) {
-    apply plugin: 'maven'
+    /**
+     * Maven deploy settings.
+     * https://developer.android.com/studio/build/maven-publish-plugin
+     */
     println("deploy to mavenLocal()")
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                repository(url: "file://${System.getProperty('user.home')}/.m2/repository")
+    afterEvaluate {
+        publishing {
+            repositories {
+                maven {
+                    url "file://${System.getProperty('user.home')}/.m2/repository"
+                }
+            }
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    // Adds javadocs and sources as separate jars.
+                    artifact sourcesJar
+                    artifact javadocJar
+                }
             }
         }
     }
