@@ -128,7 +128,7 @@ jobs:
       - module-checkout
       - run:
           name: deploy
-          command: ./gradlew build bintrayUpload -x test
+          command: ./gradlew assembleRelease sourcesJar javadocJar bintrayUpload
 aliases:
   - &depends-from-tests
     requires:
