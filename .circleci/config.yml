@@ -1,11 +1,5 @@
 version: 2.1
 executors:
-  gcloud:
-    working_directory: /home/circleci/project
-    docker:
-      - image: google/cloud-sdk
-    environment:
-      TZ: Asia/Tokyo
   android-build:
     working_directory: /home/circleci/project
     docker:
@@ -14,14 +8,6 @@ executors:
       TZ: Asia/Tokyo
       _JAVA_OPTIONS: -Xmx2g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
       GRADLE_OPTS: -Xmx2g -Dorg.gradle.daemon=false
-  kotlin-jdk8:
-    working_directory: /home/circleci/project
-    docker:
-      - image: azul/zulu-openjdk:8
-    environment:
-      TZ: Asia/Tokyo
-      _JAVA_OPTIONS: -Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
-      GRADLE_OPTS: -Xmx3g -Dorg.gradle.daemon=false
 commands:
   internal-checkout:
     steps:
@@ -68,42 +54,6 @@ jobs:
   ##############################################
   # unit-test in parameters.module
   ##############################################
-  kotlin-test:
-    parameters:
-      localTestTask:
-        type: string
-        default: test
-      formatTask:
-        type: string
-        default: format
-    executor:
-      name: android-build
-    steps:
-      - module-checkout:
-          module-path: << parameters.module-path >>
-      - run:
-          name: local-test
-          command: ./gradlew "<< parameters.localTestTask >>"
-      - run:
-          name: format
-          command: |
-            ./gradlew "<< parameters.formatTask >>"
-            if [ "`git status | grep '.kt'`" != "" ]; then
-              echo "kotlin format error."
-              echo "run -> ./gradlew format"
-              exit 1
-            fi
-      - module-save-cache:
-          module-path: << parameters.module-path >>
-      - store_artifacts:
-          destination: archive-test-reports
-          path: "<< parameters.module-path >>/build/reports"
-      - store_artifacts:
-          destination: archive-outputs
-          path: "<< parameters.module-path >>/build/outputs"
-      - store_test_results:
-          destination: archive-outputs
-          path: "<< parameters.module-path >>/build/test-results"
   android-test:
     parameters:
       module-path:
@@ -130,9 +80,6 @@ jobs:
           command: |
             ./gradlew compileDebugSources
             ./gradlew "<< parameters.localTestTask >>"
-#      - run:
-#          name: instrumentation
-#          command: ./gradlew "<< parameters.instrumentationTestTask >>"
       - run:
           name: lint
           command: ./gradlew "<< parameters.lintTask >>"
