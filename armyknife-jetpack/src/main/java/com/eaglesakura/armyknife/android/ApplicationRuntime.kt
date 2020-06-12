@@ -136,6 +136,7 @@ object ApplicationRuntime {
      *      // ART with Instrumentation test.
      * }
      */
+    @SuppressLint("WrongConstant")
     fun runIn(
         @RuntimeFlag flag: Int,
         @RuntimeFlag vararg flags: Int
