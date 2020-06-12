@@ -1,6 +1,6 @@
 buildscript {
-    rootProject.extra["kotlin_version"] = "1.3.61"
-    rootProject.extra["kotlin_coroutines_version"] = "1.3.2"
+    rootProject.extra["kotlin_version"] = "1.3.71"
+    rootProject.extra["kotlin_coroutines_version"] = "1.3.3"
     repositories {
         mavenLocal()
         google()
@@ -8,14 +8,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.6.1")
+        classpath("com.android.tools.build:gradle:4.0.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.extra["kotlin_version"]}")
-        classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17") // kotlin-docs
+        classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18") // kotlin-docs
         classpath("com.github.ben-manes:gradle-versions-plugin:0.21.0") // version checking plugin
 
         // deploy to bintray
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
     }
 }
 
