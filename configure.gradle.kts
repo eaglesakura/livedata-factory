@@ -10,12 +10,12 @@ buildscript {
     }
 }
 
-rootProject.extra["artifact_name"] = project.name
-rootProject.extra["artifact_group"] =
-    "com.eaglesakura.armyknife.${rootProject.extra["artifact_name"]}"
-rootProject.extra["bintray_user"] = "eaglesakura"
-rootProject.extra["bintray_labels"] = arrayOf("android", "kotlin")
-rootProject.extra["bintray_vcs_url"] = "https://github.com/eaglesakura/${project.name}"
+project.extra["artifact_name"] = project.name
+project.extra["artifact_group"] =
+    "${rootProject.extra["base_group"]}.${project.extra["artifact_name"]}"
+project.extra["bintray_user"] = "eaglesakura"
+project.extra["bintray_labels"] = arrayOf("android", "kotlin")
+project.extra["bintray_vcs_url"] = "https://github.com/eaglesakura/${project.name}"
 
 val buildOnCi = System.getenv("CIRCLE_BUILD_NUM") != null
 val buildTag = System.getenv("CIRCLE_TAG") ?: ""
@@ -29,7 +29,7 @@ val buildNumber = when {
 /**
  * Auto configure.
  */
-rootProject.extra["artifact_version"] = when {
+project.extra["artifact_version"] = when {
     !buildOnCi -> "${rootProject.extra["base_version"] as String}.snapshot"
     buildTag.startsWith("v") -> buildTag.substring(1)
     else -> "${rootProject.extra["base_version"] as String}.build-${buildNumber}"
@@ -77,7 +77,5 @@ val gradleHashFileText = listOf(
     }
 
 println("====================================== Project Configuration ==============================================")
-println("artifact         : ${rootProject.extra["artifact_version"]}")
+println("artifact         : ${project.extra["artifact_version"]}")
 println("===========================================================================================================")
-
-

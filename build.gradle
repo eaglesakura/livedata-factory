@@ -6,13 +6,7 @@ buildscript {
 
         // Build version.
         base_version = "1.4"
-
-        // Runtime Configuration.
-        artifact_name = ""
-        artifact_group = ""
-        bintray_user = ""
-        bintray_labels = ""
-        bintray_vcs_url = ""
+        base_group = "com.eaglesakura.armyknife"
     }
     repositories {
         mavenLocal()
@@ -32,7 +26,7 @@ buildscript {
     }
 }
 
-allprojects {
+subprojects {
     repositories {
         mavenLocal()
         google()
@@ -40,6 +34,5 @@ allprojects {
         mavenCentral()
         maven { url = "https://dl.bintray.com/eaglesakura/maven/" }
     }
+    apply from: rootProject.file("configure.gradle.kts")
 }
-
-apply from: rootProject.file("configure.gradle.kts")

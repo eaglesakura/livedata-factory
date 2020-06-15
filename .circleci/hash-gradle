@@ -1,7 +1,7 @@
 4736e23e41f16a9cc714ac79eaa3be7e : /armyknife-jetpack-dependencies/build.gradle
 b8321b57b99512984ef5ce2c25a25b87 : /armyknife-jetpack/build.gradle
-8382075637eff0b288b28849d841e79c : /build.gradle
-d04aaa19f26d68196dd42dcfb8aa5bbf : /configure.gradle.kts
+70dc1219e15b296dc7cc111dc2cf237f : /build.gradle
+3b2d6448c99bbdca16f61280c08a4a80 : /configure.gradle.kts
 d246920c2683687f99efb9df971ad8dd : /dsl/android-library.gradle
 305b426f5cff7834802b2fec8843454e : /dsl/bintray.gradle
 8cef223ae7e0a1ac93b7ffb0fec14921 : /dsl/ktlint.gradle
