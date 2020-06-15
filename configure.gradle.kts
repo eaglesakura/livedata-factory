@@ -11,36 +11,28 @@ buildscript {
 }
 
 rootProject.extra["artifact_name"] = project.name
-rootProject.extra["artifact_group"] = "com.eaglesakura.armyknife.${rootProject.extra["artifact_name"]}"
+rootProject.extra["artifact_group"] =
+    "com.eaglesakura.armyknife.${rootProject.extra["artifact_name"]}"
 rootProject.extra["bintray_user"] = "eaglesakura"
 rootProject.extra["bintray_labels"] = arrayOf("android", "kotlin")
 rootProject.extra["bintray_vcs_url"] = "https://github.com/eaglesakura/${project.name}"
+
+val buildOnCi = System.getenv("CIRCLE_BUILD_NUM") != null
+val buildTag = System.getenv("CIRCLE_TAG") ?: ""
+val buildNumberFile = rootProject.file(".configs/secrets/build-number.env")
+val buildNumber = when {
+    hasProperty("install_snapshot") -> 99999
+    buildNumberFile.isFile -> buildNumberFile.readText(Charset.forName("UTF-8")).trim().toInt()
+    else -> System.getenv("CIRCLE_BUILD_NUM")?.toInt() ?: 1
+}
 
 /**
  * Auto configure.
  */
 rootProject.extra["artifact_version"] = when {
-    !System.getenv("CIRCLE_TAG").isNullOrEmpty() -> {
-        System.getenv("CIRCLE_TAG").let { CIRCLE_TAG ->
-            val majorMinor = if (CIRCLE_TAG.isNullOrEmpty()) {
-                rootProject.extra["base_version"] as String
-            } else {
-                return@let CIRCLE_TAG.substring(CIRCLE_TAG.indexOf('v') + 1)
-            }
-
-            val buildNumberFile = rootProject.file(".configs/secrets/build-number.env")
-            if (buildNumberFile.isFile) {
-                return@let "$majorMinor.build-${buildNumberFile.readText(Charset.forName("UTF-8"))}"
-            }
-
-            return@let when {
-                hasProperty("install_snapshot") -> "$majorMinor.99999"
-                System.getenv("CIRCLE_BUILD_NUM") != null -> "$majorMinor.build-${System.getenv("CIRCLE_BUILD_NUM")}"
-                else -> "$majorMinor.snapshot"
-            }
-        }
-    }
-    else -> "${rootProject.extra["base_version"] as String}.snapshot"
+    !buildOnCi -> "${rootProject.extra["base_version"] as String}.snapshot"
+    buildTag.startsWith("v") -> buildTag.substring(1)
+    else -> "${rootProject.extra["base_version"] as String}.build-${buildNumber}"
 }.trim()
 
 val gradleHashFileText = listOf(
@@ -83,3 +75,9 @@ val gradleHashFileText = listOf(
         dst.delete()
         dst.writeText(hashText)
     }
+
+println("====================================== Project Configuration ==============================================")
+println("artifact         : ${rootProject.extra["artifact_version"]}")
+println("===========================================================================================================")
+
+

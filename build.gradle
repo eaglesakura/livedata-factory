@@ -40,5 +40,6 @@ allprojects {
         mavenCentral()
         maven { url = "https://dl.bintray.com/eaglesakura/maven/" }
     }
-    apply from: rootProject.file("configure.gradle.kts")
 }
+
+apply from: rootProject.file("configure.gradle.kts")
