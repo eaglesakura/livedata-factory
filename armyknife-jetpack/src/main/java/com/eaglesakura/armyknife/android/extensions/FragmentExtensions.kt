@@ -24,7 +24,7 @@ import kotlin.reflect.KClass
  * val fragment = fragmentManager.find { it.tag == "main" }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Suppress("UNCHECKED_CAST")
 fun <T : Fragment> FragmentManager.find(finder: (frag: Fragment) -> Boolean): T? {
@@ -43,7 +43,7 @@ fun <T : Fragment> FragmentManager.find(finder: (frag: Fragment) -> Boolean): T?
  * val callback = fragment.findInterface(Callback::class)
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> Fragment.findInterface(clazz: KClass<T>): T? {
@@ -70,7 +70,7 @@ fun <T : Any> Fragment.findInterface(clazz: KClass<T>): T? {
  * val callback: Callback? = fragment.findInterface()
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 inline fun <reified T> Fragment.findInterface(): T? {
     // find from parent
@@ -99,6 +99,9 @@ inline fun <reified T> Fragment.findInterface(): T? {
  * }
  *
  * @see SavedStateViewModelFactory
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @MainThread
 inline fun <reified VM : ViewModel> Fragment.savedStateViewModels() = createViewModelLazy(
@@ -155,6 +158,9 @@ val Fragment.savedStateHandle: SavedStateHandle
 /**
  * Context set to external live data.
  * when Fragment was destroyed, then set null.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Fragment.contextInto(liveData: MutableLiveData<Context>) {
     liveData.value = this.activity

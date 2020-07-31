@@ -20,7 +20,7 @@ class IntentExtensionsKtTest {
         intent.putMarshalParcelableExtra("name", ExampleDataClass("example@example.com"))
 
         assertEquals(ExampleDataClass::class.java.name, intent.getStringExtra("name@class"))
-        assertEquals(ExampleDataClass("example@example.com").marshal().encodeBase64(), intent.getByteArrayExtra("name@marshal").encodeBase64())
+        assertEquals(ExampleDataClass("example@example.com").marshal().encodeBase64(), intent.getByteArrayExtra("name@marshal")!!.encodeBase64())
 
         intent.deepCopy<Intent>().also { copied ->
             val extra = copied.getMarshalParcelableExtra<ExampleDataClass>("name")

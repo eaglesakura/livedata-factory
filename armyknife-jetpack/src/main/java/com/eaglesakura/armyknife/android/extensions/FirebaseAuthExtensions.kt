@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
  * await Firebase auth.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun FirebaseAuth.awaitLogin(): FirebaseUser = withContext(Dispatchers.Main) {
     while (currentUser == null) {
@@ -27,7 +27,7 @@ suspend fun FirebaseAuth.awaitLogin(): FirebaseUser = withContext(Dispatchers.Ma
  * await Firebase auth.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun FirebaseAuth.awaitLogout() = withContext(Dispatchers.Main) {
     while (currentUser != null) {
@@ -39,7 +39,7 @@ suspend fun FirebaseAuth.awaitLogout() = withContext(Dispatchers.Main) {
  * Syntax sugar to Sign-In with Google Account.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun FirebaseAuth.signIn(account: GoogleSignInAccount) =
     signInWithCredential(GoogleAuthProvider.getCredential(account.idToken, null))

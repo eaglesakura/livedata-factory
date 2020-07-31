@@ -8,6 +8,7 @@ import android.content.pm.ApplicationInfo
 import android.net.ConnectivityManager
 import android.os.Build
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.Surface
 import android.view.WindowManager
 
@@ -33,7 +34,7 @@ val Context.deviceRotateDegree: Int
  * This property returns true,
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 val Context.debugMode: Boolean
     get() = packageManager.getApplicationInfo(packageName, 0)?.let { appInfo ->
@@ -43,9 +44,13 @@ val Context.debugMode: Boolean
 /**
  * When developer mode enabled on this device, This property return true.
  * But, API Level less than 17, This property always returns false.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Deprecated("typo, developerModeDevice", ReplaceWith("developerModeDevice"))
 val Context.devloperModeDevice: Boolean
+    @SuppressLint("ObsoleteSdkInt")
     get() = if (Build.VERSION.SDK_INT < 17) {
         false
     } else {
@@ -55,19 +60,27 @@ val Context.devloperModeDevice: Boolean
 /**
  * When developer mode enabled on this device, This property return true.
  * But, API Level less than 17, This property always returns false.
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 val Context.developerModeDevice: Boolean
-    get() = if (Build.VERSION.SDK_INT < 17) {
-        false
-    } else {
-        Settings.Secure.getInt(contentResolver, Settings.Global.ADB_ENABLED, 0) != 0
-    }
+    get() = Settings.Secure.getInt(contentResolver, Settings.Global.ADB_ENABLED, 0) != 0
+
+/**
+ * Shortcut to 'LayoutInflater.from(this)'
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)
 
 /**
  * This method returns true when android-device connected to network.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @SuppressLint("MissingPermission")
 fun Context.isConnectedNetwork(): Boolean {
