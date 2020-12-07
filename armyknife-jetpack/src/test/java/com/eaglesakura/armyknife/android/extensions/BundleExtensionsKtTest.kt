@@ -19,8 +19,8 @@ class BundleExtensionsKtTest {
 
         assertEquals(ExampleDataClass::class.java.name, bundle.getString("name@class"))
         assertEquals(
-                ExampleDataClass("example@example.com").marshal().encodeBase64(),
-                bundle.getByteArray("name@marshal")!!.encodeBase64()
+            ExampleDataClass("example@example.com").marshal().encodeBase64(),
+            bundle.getByteArray("name@marshal")!!.encodeBase64()
         )
 
         bundle.deepCopy<Bundle>().also { copied ->

@@ -17,10 +17,12 @@ import androidx.media.AudioAttributesCompat
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun MediaPlayer.setAudioAttributes(attributes: AudioAttributesCompat) {
-    this.setAudioAttributes(AudioAttributes.Builder().also { builder ->
-        builder.setUsage(attributes.usage)
-        builder.setLegacyStreamType(attributes.legacyStreamType)
-        builder.setFlags(attributes.flags)
-        builder.setContentType(attributes.contentType)
-    }.build())
+    this.setAudioAttributes(
+        AudioAttributes.Builder().also { builder ->
+            builder.setUsage(attributes.usage)
+            builder.setLegacyStreamType(attributes.legacyStreamType)
+            builder.setFlags(attributes.flags)
+            builder.setContentType(attributes.contentType)
+        }.build()
+    )
 }

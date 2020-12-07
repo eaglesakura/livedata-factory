@@ -15,13 +15,13 @@ import com.annimon.stream.Optional
 import com.eaglesakura.armyknife.runtime.extensions.send
 import com.eaglesakura.armyknife.runtime.extensions.withChildContext
 import io.reactivex.subjects.PublishSubject
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.coroutines.CoroutineContext
 
 private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
     override fun onChanged(t: T?) {
@@ -295,9 +295,12 @@ fun <T> LiveData<T>.copyTo(
     dst: MutableLiveData<T>
 ): MutableLiveData<T> {
     dst.value = this.value
-    this.observeAlive(lifecycleOwner, Observer {
-        dst.value = it
-    })
+    this.observeAlive(
+        lifecycleOwner,
+        Observer {
+            dst.value = it
+        }
+    )
     return dst
 }
 
@@ -316,9 +319,12 @@ fun <T> LiveData<T>.toNullablePublishSubject(lifecycle: LifecycleOwner): Publish
             subject.onComplete()
         }
     }
-    this.observe(lifecycle, Observer {
-        subject.onNext(Optional.ofNullable(it))
-    })
+    this.observe(
+        lifecycle,
+        Observer {
+            subject.onNext(Optional.ofNullable(it))
+        }
+    )
 
     return subject
 }

@@ -226,9 +226,9 @@ fun <T> Observable<T>.subscribe(
     onComplete: (() -> Unit)?
 ): Disposable {
     return subscribe(
-            { next -> onNext?.invoke(next) },
-            { err -> onError?.invoke(err) },
-            { onComplete?.invoke() }
+        { next -> onNext?.invoke(next) },
+        { err -> onError?.invoke(err) },
+        { onComplete?.invoke() }
     ).with(lifecycle, Lifecycle.Event.ON_DESTROY)
 }
 

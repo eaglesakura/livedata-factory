@@ -59,36 +59,36 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) :
 
     override fun beginTransactionWithListener(transactionListener: SQLiteTransactionListener) {
         database.beginTransactionWithListener(object :
-            android.database.sqlite.SQLiteTransactionListener {
-            override fun onBegin() {
-                transactionListener.onBegin()
-            }
+                android.database.sqlite.SQLiteTransactionListener {
+                override fun onBegin() {
+                    transactionListener.onBegin()
+                }
 
-            override fun onCommit() {
-                transactionListener.onCommit()
-            }
+                override fun onCommit() {
+                    transactionListener.onCommit()
+                }
 
-            override fun onRollback() {
-                transactionListener.onRollback()
-            }
-        })
+                override fun onRollback() {
+                    transactionListener.onRollback()
+                }
+            })
     }
 
     override fun beginTransactionWithListenerNonExclusive(transactionListener: SQLiteTransactionListener) {
         database.beginTransactionWithListenerNonExclusive(object :
-            android.database.sqlite.SQLiteTransactionListener {
-            override fun onBegin() {
-                transactionListener.onBegin()
-            }
+                android.database.sqlite.SQLiteTransactionListener {
+                override fun onBegin() {
+                    transactionListener.onBegin()
+                }
 
-            override fun onCommit() {
-                transactionListener.onCommit()
-            }
+                override fun onCommit() {
+                    transactionListener.onCommit()
+                }
 
-            override fun onRollback() {
-                transactionListener.onRollback()
-            }
-        })
+                override fun onRollback() {
+                    transactionListener.onRollback()
+                }
+            })
     }
 
     override fun endTransaction() {
@@ -174,8 +174,10 @@ private class SupportSQLiteDatabaseImpl(private val database: SQLiteDatabase) :
     }
 
     override fun delete(table: String, whereClause: String, whereArgs: Array<Any>): Int {
-        val query = ("DELETE FROM " + table +
-                if (isEmpty(whereClause)) "" else " WHERE $whereClause")
+        val query = (
+            "DELETE FROM " + table +
+                if (isEmpty(whereClause)) "" else " WHERE $whereClause"
+            )
         val statement = compileStatement(query)
         SimpleSQLiteQuery.bind(statement, whereArgs)
         return statement.executeUpdateDelete()

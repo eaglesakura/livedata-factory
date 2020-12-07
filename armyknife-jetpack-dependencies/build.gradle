@@ -151,7 +151,7 @@ dependencies {
     api("com.google.android.gms:play-services-cast-framework:19.0.0")
     api("com.google.android.gms:play-services-measurement-api:18.0.0")
     api("com.google.android.gms:play-services-tagmanager:17.0.0")
-    api("com.google.android.gms:play-services-vision:20.1.2")
+//    api("com.google.android.gms:play-services-vision:20.1.2")
 //    api("com.google.android.gms:play-services-gass:18.3.0") // AdMob library.
 
     /**
@@ -161,10 +161,11 @@ dependencies {
     api("com.google.firebase:firebase-dynamic-links:19.1.1")
     api("com.google.firebase:firebase-iid:21.0.0")
     api("com.google.firebase:firebase-messaging:21.0.0")
-    api("com.google.firebase:firebase-ml-common:22.1.2")
-    api("com.google.firebase:firebase-ml-model-interpreter:22.0.4")
-    api("com.google.firebase:firebase-ml-vision:24.1.0")
-    api("com.google.firebase:firebase-ml-vision-image-label-model:20.0.2")
+    api("com.google.firebase:firebase-ml-vision:24.1.0") {
+        exclude(group: "com.google.android.gms", module: "play-services-vision-image-label")
+    }
+//    api("com.google.firebase:firebase-ml-model-interpreter:22.0.4")
+//    api("com.google.firebase:firebase-ml-vision-image-label-model:20.0.2")
     api("com.google.firebase:firebase-core:18.0.0")
     api("com.google.firebase:firebase-invites:17.0.0")
     api("com.google.firebase:firebase-perf:19.0.10")

@@ -1,6 +1,7 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eaglesakura.armyknife.android.ApplicationRuntime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -12,17 +13,27 @@ class HandlerExtensionsKtTest {
 
     @Test
     fun runBlockingOnUiThread_uiThread() {
-        assertEquals(true, runBlocking(Dispatchers.Main) {
-            runBlockingOnUiThread {
-                onUiThread
+        if (ApplicationRuntime.ROBOLECTRIC) {
+            return
+        }
+
+        assertEquals(
+            true,
+            runBlocking(Dispatchers.Main) {
+                runBlockingOnUiThread {
+                    onUiThread
+                }
             }
-        })
+        )
     }
 
     @Test
     fun runBlockingOnUiThread_workerThread() {
-        assertEquals(true, runBlockingOnUiThread {
-            onUiThread
-        })
+        assertEquals(
+            true,
+            runBlockingOnUiThread {
+                onUiThread
+            }
+        )
     }
 }

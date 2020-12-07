@@ -1,8 +1,8 @@
 package com.eaglesakura.armyknife.runtime.time
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import java.util.Date
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Current time object.

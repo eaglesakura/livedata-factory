@@ -4,12 +4,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 /**
  *  Add finalize function.
@@ -37,8 +37,8 @@ fun LifecycleOwner.registerFinalizer(onDestroy: (owner: LifecycleOwner) -> Unit)
  * }
  */
 @Deprecated(
-        "replace to 'LifecycleOwner.lifecycleScope.launch'",
-        ReplaceWith("lifecycleScope.launch")
+    "replace to 'LifecycleOwner.lifecycleScope.launch'",
+    ReplaceWith("lifecycleScope.launch")
 )
 fun LifecycleOwner.launch(
     context: CoroutineContext,

@@ -2,14 +2,14 @@ package com.eaglesakura.armyknife.android.reactivex
 
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
 
 internal class ObserverChannel<T>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Main,
