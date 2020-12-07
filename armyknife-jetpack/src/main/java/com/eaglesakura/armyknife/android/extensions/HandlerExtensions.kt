@@ -172,7 +172,7 @@ class AsyncHandler(private val thread: HandlerThread) : Handler(thread.looper) {
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> runBlockingOnUiThread(block: () -> T): T {
-    return if (onUiThread || robolectric) {
+    return if (onUiThread) {
         block()
     } else {
         runBlocking(Dispatchers.Main) {
