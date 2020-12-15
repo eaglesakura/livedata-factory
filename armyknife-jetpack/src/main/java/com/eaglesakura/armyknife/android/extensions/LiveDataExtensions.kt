@@ -1,16 +1,15 @@
-@file:Suppress("unused")
-
 package com.eaglesakura.armyknife.android.extensions
 
 import android.annotation.SuppressLint
 import androidx.annotation.AnyThread
+import androidx.annotation.MainThread
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Transformations
 import com.annimon.stream.Optional
 import com.eaglesakura.armyknife.runtime.extensions.send
 import com.eaglesakura.armyknife.runtime.extensions.withChildContext
@@ -312,7 +311,6 @@ fun <T> LiveData<T>.copyTo(
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> LiveData<T>.toNullablePublishSubject(lifecycle: LifecycleOwner): PublishSubject<Optional<T>> {
-    ProcessLifecycleOwner.get().lifecycleScope
     val subject = PublishSubject.create<Optional<T>>()
     lifecycle.lifecycle.subscribe {
         if (it == Lifecycle.Event.ON_DESTROY) {
@@ -370,5 +368,72 @@ fun <T> MutableLiveData<T>.setValueWhenResumed(lifecycleOwner: LifecycleOwner, v
         if (event == Lifecycle.Event.ON_PAUSE && self.value == value) {
             self.value = null
         }
+    }
+}
+
+/**
+ * Live data notify on value changed.
+ * @see Transformations.distinctUntilChanged
+ */
+@MainThread
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
+    return Transformations.distinctUntilChanged(this)
+}
+
+/**
+ * Live data map to other Type.
+ * @see Transformations.map
+ */
+@MainThread
+fun <T, R> LiveData<T>.map(function: (src: T?) -> R?): LiveData<R> {
+    return Transformations.map(this, function)
+}
+
+/**
+ * Live data first value only.
+ */
+fun <T> LiveData<T>.first(): MutableLiveData<T> {
+    return MediatorLiveData<T>().also { result ->
+        result.addSource(this) { newValue: T? ->
+            if (result.value == null && newValue != null) {
+                result.value = newValue
+            }
+        }
+    }
+}
+
+/**
+ * Live data only not null.
+ */
+fun <T> LiveData<T>.nonNull(): MutableLiveData<T> {
+    return where { _, _, newValue ->
+        newValue != null
+    }
+}
+
+/**
+ * Live data first value only.
+ * when `source` data on updated and the Dst value is null, then check filter function.
+ * If it returns `true`, then write the Dst live data.
+ *
+ * @param filter if write dst value, then return true.
+ */
+fun <T> LiveData<T>.where(
+    filter: (self: LiveData<T>, latestValue: T?, newValue: T?) -> Boolean
+): MutableLiveData<T> {
+    return MediatorLiveData<T>().also { result ->
+        result.addSource(
+            this,
+            object : Observer<T> {
+                private var latestValue: T? = null
+
+                override fun onChanged(newValue: T) {
+                    if (filter(result, latestValue, newValue)) {
+                        result.value = newValue
+                    }
+                    latestValue = newValue
+                }
+            }
+        )
     }
 }
