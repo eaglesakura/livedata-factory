@@ -95,9 +95,9 @@ object RuntimePermissions {
     fun hasAllRuntimePermissions(context: Context, permissions: Iterable<String>): Boolean {
         for (permission in permissions) {
             if (ContextCompat.checkSelfPermission(
-                    context,
-                    permission
-                ) != PackageManager.PERMISSION_GRANTED
+                context,
+                permission
+            ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return false
             }

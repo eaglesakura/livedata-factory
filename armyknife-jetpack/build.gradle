@@ -1,11 +1,10 @@
-apply from: "../dsl/android-library.gradle"
-apply from: "../dsl/ktlint.gradle"
-apply from: "../dsl/bintray.gradle"
+apply from: rootProject.file('scripts/build-android-library.gradle')
+apply plugin: 'kotlin-parcelize'
+apply from: rootProject.file('scripts/deploy-bintray-aar.gradle')
 
 dependencies {
-    compileOnly project(":armyknife-jetpack-dependencies")
-    testImplementation project(":armyknife-jetpack-dependencies")
-    androidTestImplementation project(":armyknife-jetpack-dependencies")
+    releaseCompileOnly project(":armyknife-jetpack-dependencies")
+    debugImplementation project(":armyknife-jetpack-dependencies")
 
     api "com.eaglesakura.armyknife.armyknife-runtime:armyknife-runtime:1.3.7"
 
