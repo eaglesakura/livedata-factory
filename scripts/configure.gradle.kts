@@ -9,8 +9,9 @@ artifact["deploy_version"] = run {
     val GITHUB_REF = System.getenv("GITHUB_REF") ?: ""
     val GITHUB_RUN_NUMBER = System.getenv("GITHUB_RUN_NUMBER")
 
-    if (GITHUB_REF.startsWith("refs/heads/v")) {
-        return@run GITHUB_REF.substring("refs/heads/v".length)
+    // TAG version.
+    if (GITHUB_REF.startsWith("refs/tags/v")) {
+        return@run GITHUB_REF.substring("refs/tags/v".length)
     }
 
     val majorMinor = artifact["base_version"] as String
