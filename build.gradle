@@ -1,12 +1,12 @@
 buildscript {
     ext {
         versions = [
-                kotlin            : "1.4.21",
-                kotlin_coroutines : "1.4.1",
-                android_plugin    : "7.0.0-alpha04",
-                android_minSdk    : 21,
-                android_targetSdk : 30,
-                android_buildTools: "30.0.3",
+                kotlin              : "1.4.21",
+                kotlin_coroutines   : "1.4.1",
+                android_plugin      : "4.1.1",
+                android_minSdk      : 21,
+                android_targetSdk   : 30,
+                android_buildTools  : "30.0.3",
         ]
         artifact = [
                 deploy_version: "1.0-SNAPSHOT",

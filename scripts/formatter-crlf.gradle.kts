@@ -45,7 +45,7 @@ task("formatLineSeparator") {
     doLast {
         println("Fix line separator in ${project.name}")
         listOfNotNull(
-            fileTree(".").files.toList(),
+            file(".").listFiles()!!.toList(),
             fileTree("src").files.toList()
         ).flatten()
             .map { it.canonicalFile }
