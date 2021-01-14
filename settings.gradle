@@ -1,2 +1,2 @@
-include(":armyknife-jetpack")
 include(":armyknife-jetpack-dependencies")
+include(":armyknife-jetpack")
