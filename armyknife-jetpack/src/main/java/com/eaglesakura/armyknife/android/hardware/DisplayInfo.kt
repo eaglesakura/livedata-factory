@@ -7,7 +7,7 @@ import android.os.Parcelable
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.WindowManager
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * This object calculate display information this device.

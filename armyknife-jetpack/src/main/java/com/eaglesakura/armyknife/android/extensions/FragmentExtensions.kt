@@ -67,7 +67,8 @@ fun <T : Any> Fragment.findInterface(clazz: KClass<T>): T? {
  * Finding the "T" Interface from Activity or parent fragments.
  *
  * e.g.)
- * val callback: Callback? = fragment.findInterface()
+ * val callback: Callback?
+ *      get() = fragment.findInterface()
  *
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
@@ -87,6 +88,22 @@ inline fun <reified T> Fragment.findInterface(): T? {
     }
 
     return null
+}
+
+/**
+ * Finding the "T" Interface from Activity or parent fragments.
+ *
+ * e.g.)
+ * val callback: Callback
+ *      get() = fragment.requireInterface()
+ *
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
+ */
+inline fun <reified T> Fragment.requireInterface(): T {
+    return requireNotNull(findInterface()) {
+        "Interface(${T::class.java.name}) not found."
+    }
 }
 
 /**
