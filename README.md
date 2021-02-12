@@ -20,7 +20,7 @@ val ok: LiveData<Boolean> =  LiveDataFactory.transform(url, name, description) {
 ```groovy
 // /app/build.gradle
 dependencies {
-    implementation 'io.github.eaglesakura.livedata-factory:livedata-factory:${check release tags.}'
+    implementation 'io.github.eaglesakura.livedata-factory:livedata-factory:1.0.0'
 }
 ```
 
