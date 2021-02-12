@@ -1,15 +1,26 @@
-# What is this repository?
+# What is this Library?
 
-Library for android applications with Kotlin.
+`LiveDataFactory` is LiveData create utils for androidx.ViewModel.
 
-armyknife is small library, but it can be more small.
-If you have to shrink to application, then proguard-options set to enable.
+# Example.
 
-# how to implementation into your project
+```kotlin
+
+val url = MutableLiveData<String>()
+val name = MutableLiveData<String>()
+val description = MutableLiveData<String>()
+
+val ok: LiveData<Boolean> =  LiveDataFactory.transform(url, name, description) { url, name, description ->
+    url.isNotEmpty() && name.isNotEmpty() && description.isNotEmpty()
+}
+```
+
+# How to Install.
 
 ```groovy
 // /app/build.gradle
 dependencies {
-    implementation 'io.github.eaglesakura.armyknife-jetpack:armyknife-jetpack:${replace version}'
+    implementation 'io.github.eaglesakura.livedata-factory:livedata-factory:${check release tags.}'
 }
 ```
+
