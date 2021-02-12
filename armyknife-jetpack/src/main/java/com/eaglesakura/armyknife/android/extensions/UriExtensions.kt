@@ -14,8 +14,8 @@ fun Uri.toFileCompat(): File {
     val path = this.path ?: ""
     return if (path.isEmpty()) {
         // Windows path.
-        val path = toString().substring(SCHEME_FILE.length)
-        File(URLDecoder.decode(path, "UTF-8"))
+        val parsedPath = toString().substring(SCHEME_FILE.length)
+        File(URLDecoder.decode(parsedPath, "UTF-8"))
     } else {
         toFile()
     }

@@ -21,7 +21,7 @@ import java.util.Locale
  * Example, Force cancel on "cursor.next()".
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 typealias CursorWrapper = (cursor: Cursor, signal: CancellationSignal?) -> Cursor
 
@@ -29,7 +29,7 @@ typealias CursorWrapper = (cursor: Cursor, signal: CancellationSignal?) -> Curso
  * SQLiteDatabase to SupportSQLiteDatabase.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun SQLiteDatabase.asSupport(cursorWrapper: CursorWrapper? = null): SupportSQLiteDatabase {
     return SupportSQLiteDatabaseImpl(this).also {

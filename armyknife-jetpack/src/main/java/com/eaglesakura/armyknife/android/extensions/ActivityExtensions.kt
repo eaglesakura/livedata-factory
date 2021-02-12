@@ -42,7 +42,7 @@ inline fun <reified T> FragmentActivity.findInterface(): T? {
  * Force closing Input Method.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Activity.closeIME() {
     closeIME(currentFocus ?: return)
@@ -76,6 +76,7 @@ fun Activity.closeIME(focus: View) {
  * @see SavedStateViewModelFactory
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("remove this extension.", ReplaceWith(""))
 @MainThread
 inline fun <reified VM : ViewModel> FragmentActivity.savedStateViewModels() = ViewModelLazy(
     viewModelClass = VM::class,
@@ -98,6 +99,7 @@ inline fun <reified VM : ViewModel> FragmentActivity.savedStateViewModels() = Vi
  * @see SavedStateViewModelFactory
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("remove this extension.", ReplaceWith(""))
 val FragmentActivity.savedStateHandle: SavedStateHandle
     get() = ViewModelProviders.of(
         this,

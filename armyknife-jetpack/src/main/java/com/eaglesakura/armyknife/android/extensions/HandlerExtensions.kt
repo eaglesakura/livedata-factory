@@ -78,7 +78,7 @@ private val robolectric: Boolean = try {
  * }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @UiThread
 fun assertUIThread() {

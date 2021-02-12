@@ -9,8 +9,9 @@ import androidx.lifecycle.Lifecycle
  * When lifecycle on destroy, then dismiss this dialog.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("replace to DialogFragment", ReplaceWith(""))
 fun AlertDialog.Builder.show(lifecycle: Lifecycle): AlertDialog {
     return show().also {
         it.with(lifecycle)
@@ -21,6 +22,7 @@ fun AlertDialog.Builder.show(lifecycle: Lifecycle): AlertDialog {
  * Dialog link to Lifecycle.
  * When lifecycle on destroy, then dismiss this dialog.
  */
+@Deprecated("replace to DialogFragment", ReplaceWith(""))
 fun Dialog.with(lifecycle: Lifecycle) {
     val dialog = this
     lifecycle.subscribe {

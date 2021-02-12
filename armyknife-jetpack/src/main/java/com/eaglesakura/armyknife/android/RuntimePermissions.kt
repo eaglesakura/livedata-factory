@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
  * Utilities for Runtime permissions.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 object RuntimePermissions {
 
@@ -54,7 +54,7 @@ object RuntimePermissions {
      * User can change this application setting.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun newAppSettingIntent(context: Context): Intent {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -67,7 +67,7 @@ object RuntimePermissions {
      * User can change overlay settings.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @TargetApi(Build.VERSION_CODES.M)
     fun newAppOverlaySettingIntent(context: Context): Intent {
@@ -80,7 +80,7 @@ object RuntimePermissions {
      * This method returns Intent for "usage stats access permission".
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun newUsageStatusSettingIntent(@Suppress("UNUSED_PARAMETER") context: Context): Intent {
         return Intent("android.settings.USAGE_ACCESS_SETTINGS")
@@ -90,7 +90,7 @@ object RuntimePermissions {
      * If all permissions are granted, this method returns true.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun hasAllRuntimePermissions(context: Context, permissions: Iterable<String>): Boolean {
         for (permission in permissions) {
@@ -109,7 +109,7 @@ object RuntimePermissions {
      * If this app has permission for draw on system-layer, this method returns true.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     @Deprecated("Replace to RuntimePermissions.canDrawOverlays()", ReplaceWith("canDrawOverlays"))
     fun hasDrawOverlayPermission(context: Context): Boolean {
@@ -124,7 +124,7 @@ object RuntimePermissions {
      * If this app has permission for draw on system-layer, this method returns true.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun canDrawOverlays(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -142,7 +142,7 @@ object RuntimePermissions {
      * </manifest>
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun hasAccessUsageStatusPermission(context: Context): Boolean {
         @Suppress("LiftReturnOrAssignment")

@@ -20,7 +20,7 @@ import androidx.annotation.IntDef
  * Utility for Application Runtime information.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 object ApplicationRuntime {
 
@@ -28,7 +28,7 @@ object ApplicationRuntime {
      * identifier of this process.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     val pid: Int
         get() = android.os.Process.myPid()
@@ -44,7 +44,7 @@ object ApplicationRuntime {
      * Kill self process.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun killSelf() {
         android.os.Process.killProcess(pid)
@@ -57,7 +57,7 @@ object ApplicationRuntime {
      * Robolectric runtime is true.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     val ROBOLECTRIC: Boolean = try {
         Class.forName("org.robolectric.Robolectric")
@@ -152,7 +152,7 @@ object ApplicationRuntime {
      * returns rotation of the device in degree.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun getDeviceRotateDegree(context: Context): Int {
         val surfaceRotation =
@@ -170,7 +170,7 @@ object ApplicationRuntime {
      * If this process is foreground now then returns true.
      *
      * @author @eaglesakura
-     * @link https://github.com/eaglesakura/army-knife
+     * @link https://github.com/eaglesakura/armyknife-jetpack
      */
     fun isForegroundApplicationSelf(context: Context): Boolean {
         return context.packageName == getTopApplicationPackage(context)

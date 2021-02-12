@@ -7,7 +7,7 @@ import androidx.sqlite.db.SupportSQLiteStatement
  * SQLiteStatement to SupportSQLiteStatement.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun SQLiteStatement.asSupport(): SupportSQLiteStatement = SupportSqliteStatementImpl(this)
 

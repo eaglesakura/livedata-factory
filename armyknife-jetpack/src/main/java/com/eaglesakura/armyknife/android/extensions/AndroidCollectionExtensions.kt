@@ -7,7 +7,7 @@ import androidx.core.util.valueIterator
  * SparseArray to kotlin.List
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> SparseArray<T>.toList(): List<T> {
     val result = mutableListOf<T>()

@@ -19,8 +19,9 @@ import androidx.core.content.getSystemService
  * }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("DON'T USE THIS, This Extension is not appropriate.")
 inline fun createNotificationChannel(context: Context, block: () -> NotificationChannel) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val notificationChannel = block()
@@ -39,8 +40,9 @@ inline fun createNotificationChannel(context: Context, block: () -> Notification
  * }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("DON'T USE THIS, This Extension is not appropriate.")
 inline fun notificationToStatusBar(
     context: Context,
     channelId: String,
@@ -63,8 +65,9 @@ inline fun notificationToStatusBar(
  * }
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("DON'T USE THIS, This Extension is not appropriate.")
 inline fun notificationToStatusBar(
     context: Context,
     channelId: String,

@@ -1,7 +1,7 @@
 package com.eaglesakura.armyknife.android.extensions
 
 import androidx.fragment.app.FragmentManager
-import com.eaglesakura.armyknife.runtime.extensions.instanceOf
+import com.eaglesakura.armyknife.android.internal.instanceOf
 
 /**
  * Find "T" instance from All FragmentManager tree.

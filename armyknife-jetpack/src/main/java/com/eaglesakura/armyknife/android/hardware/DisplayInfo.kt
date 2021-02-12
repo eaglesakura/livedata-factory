@@ -17,7 +17,7 @@ import kotlinx.parcelize.Parcelize
  * Log.d("DisplayInfo", "${info.widthPixel} x ${info.heightPixel}")
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Suppress("MemberVisibilityCanBePrivate")
 @Parcelize

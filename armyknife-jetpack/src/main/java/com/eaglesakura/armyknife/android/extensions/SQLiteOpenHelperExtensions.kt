@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper
  * SQLiteOpenHelper to SupportSQLiteOpenHelper.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun SQLiteOpenHelper.asSupport(): SupportSQLiteOpenHelper = SupportSQLiteOpenHelperImpl(this)
 

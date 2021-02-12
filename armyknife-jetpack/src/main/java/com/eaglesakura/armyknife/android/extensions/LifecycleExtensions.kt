@@ -5,7 +5,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import com.eaglesakura.armyknife.runtime.extensions.withChildContext
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +14,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 
 /**
@@ -70,6 +71,7 @@ fun <T> Lifecycle.async(
  */
 fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
     this.addObserver(object : LifecycleObserver {
+        @Suppress("unused")
         @Keep
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
@@ -97,6 +99,7 @@ fun Lifecycle.subscribe(receiver: (event: Lifecycle.Event) -> Unit) {
 fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () -> Unit) -> Unit) {
     val self = this
     self.addObserver(object : LifecycleObserver {
+        @Suppress("unused")
         @Keep
         @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
         fun onAny(@Suppress("UNUSED_PARAMETER") source: LifecycleOwner, event: Lifecycle.Event) {
@@ -119,8 +122,9 @@ fun Lifecycle.subscribeWithCancel(receiver: (event: Lifecycle.Event, cancel: () 
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
-suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
-    withChildContext(Dispatchers.Main) {
+@Suppress("unused")
+suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event): Unit = coroutineScope {
+    withContext(Dispatchers.Main) {
         yield()
 
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
@@ -163,12 +167,13 @@ suspend fun delay(lifecycle: Lifecycle, targetEvent: Lifecycle.Event) {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
-suspend fun delay(lifecycle: Lifecycle, targetState: Lifecycle.State) {
-    withChildContext(Dispatchers.Main) {
+@Suppress("unused")
+suspend fun delay(lifecycle: Lifecycle, targetState: Lifecycle.State): Unit = coroutineScope {
+    withContext(Dispatchers.Main) {
         yield()
 
         if (lifecycle.currentState == targetState) {
-            return@withChildContext
+            return@withContext
         }
 
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {

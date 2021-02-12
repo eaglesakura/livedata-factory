@@ -9,7 +9,7 @@ import androidx.core.view.forEach
  * This method returns absolute view area of Android device display.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun View.getScreenArea(): Rect {
     val area = Rect()
@@ -32,7 +32,7 @@ fun View.getScreenArea(): Rect {
  * This method returns relative view area of Application window.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun View.getWindowArea(): Rect {
     val xy = IntArray(2)

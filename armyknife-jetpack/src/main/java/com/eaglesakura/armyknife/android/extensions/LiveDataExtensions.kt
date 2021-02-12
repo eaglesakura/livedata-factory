@@ -11,16 +11,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import com.annimon.stream.Optional
-import com.eaglesakura.armyknife.runtime.extensions.send
-import com.eaglesakura.armyknife.runtime.extensions.withChildContext
 import io.reactivex.subjects.PublishSubject
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
     override fun onChanged(t: T?) {
@@ -35,6 +35,7 @@ private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Suppress("unused", "RedundantSamConstructor")
 fun <T> LiveData<T>.forceActiveAlive(owner: LifecycleOwner) {
     observeAlive(owner, ObserverWrapper(Observer { /* drop value. */ }))
 }
@@ -48,7 +49,9 @@ fun <T> LiveData<T>.forceActiveAlive(owner: LifecycleOwner) {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Suppress("unused")
 fun <T> LiveData<T>.forceActiveForever() {
+    @Suppress("RedundantSamConstructor")
     observeForever(ObserverWrapper(Observer { /* drop value. */ }))
 }
 
@@ -97,11 +100,11 @@ fun <T> LiveData<T>.observeAlive(owner: LifecycleOwner, observer: Observer<T>) {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
-suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T {
+suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T = coroutineScope {
     // check initial value.
     value?.also {
         if (filter(it)) {
-            return it
+            return@coroutineScope it
         }
     }
 
@@ -109,10 +112,12 @@ suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T {
     val observer = Observer<T> {
         val newValue = it ?: return@Observer
         if (filter(newValue)) {
-            channel.send(Dispatchers.Main, newValue)
+            launch(Dispatchers.Default) {
+                channel.send(newValue)
+            }
         }
     }
-    return withChildContext(Dispatchers.Main) {
+    withContext(Dispatchers.Main) {
         try {
             observeForever(observer)
             channel.receive()
@@ -138,15 +143,16 @@ suspend fun <T> LiveData<T>.await(filter: (value: T) -> Boolean = { true }): T {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Suppress("unused")
 suspend fun <T> LiveData<T>.await(
     checkInitialValue: Boolean = true,
     filter: (value: T) -> Boolean = { true }
-): T {
+): T = coroutineScope {
     // check initial value.
     if (checkInitialValue) {
         value?.also {
             if (filter(it)) {
-                return it
+                return@coroutineScope it
             }
         }
     }
@@ -155,14 +161,16 @@ suspend fun <T> LiveData<T>.await(
     val observer = Observer<T> {
         val newValue = it ?: return@Observer
         if (filter(newValue)) {
-            channel.send(Dispatchers.Main, newValue)
+            launch(Dispatchers.Default) {
+                channel.send(newValue)
+            }
         }
     }
 
-    return withChildContext(Dispatchers.Main) {
+    withContext(Dispatchers.Main) {
         observeForever(observer)
         try {
-            return@withChildContext channel.receive()
+            channel.receive()
         } finally {
             removeObserver(observer)
         }
@@ -181,7 +189,7 @@ fun <T> MutableLiveData<T>.setValueAsync(
 ) {
     val self = this
     GlobalScope.launch(context) {
-        withChildContext(Dispatchers.Main) {
+        withContext(Dispatchers.Main) {
             self.value = factory(self)
         }
     }
@@ -192,6 +200,7 @@ fun <T> MutableLiveData<T>.setValueAsync(
  *
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Suppress("unused")
 @AnyThread
 fun <T> MutableLiveData<T>.blockingSetValue(value: T?) {
     if (onUiThread) {
@@ -211,9 +220,10 @@ fun <T> MutableLiveData<T>.blockingSetValue(value: T?) {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Suppress("unused")
 suspend fun <T> MutableLiveData<T>.setValueAsync(value: T?) {
     val self = this
-    withChildContext(Dispatchers.Main) {
+    withContext(Dispatchers.Main) {
         self.value = value
     }
 }
@@ -294,6 +304,7 @@ fun <T> LiveData<T>.copyTo(
     dst: MutableLiveData<T>
 ): MutableLiveData<T> {
     dst.value = this.value
+    @Suppress("RedundantSamConstructor")
     this.observeAlive(
         lifecycleOwner,
         Observer {
@@ -310,6 +321,7 @@ fun <T> LiveData<T>.copyTo(
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Suppress("unused")
 fun <T> LiveData<T>.toNullablePublishSubject(lifecycle: LifecycleOwner): PublishSubject<Optional<T>> {
     val subject = PublishSubject.create<Optional<T>>()
     lifecycle.lifecycle.subscribe {
@@ -317,6 +329,7 @@ fun <T> LiveData<T>.toNullablePublishSubject(lifecycle: LifecycleOwner): Publish
             subject.onComplete()
         }
     }
+    @Suppress("RedundantSamConstructor")
     this.observe(
         lifecycle,
         Observer {
@@ -375,6 +388,7 @@ fun <T> MutableLiveData<T>.setValueWhenResumed(lifecycleOwner: LifecycleOwner, v
  * Live data notify on value changed.
  * @see Transformations.distinctUntilChanged
  */
+@Suppress("unused")
 @MainThread
 fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
     return Transformations.distinctUntilChanged(this)
@@ -384,6 +398,7 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
  * Live data map to other Type.
  * @see Transformations.map
  */
+@Suppress("unused")
 @MainThread
 fun <T, R> LiveData<T>.map(function: (src: T?) -> R?): LiveData<R> {
     return Transformations.map(this, function)
@@ -392,6 +407,7 @@ fun <T, R> LiveData<T>.map(function: (src: T?) -> R?): LiveData<R> {
 /**
  * Live data first value only.
  */
+@Suppress("unused")
 fun <T> LiveData<T>.first(): MutableLiveData<T> {
     return MediatorLiveData<T>().also { result ->
         result.addSource(this) { newValue: T? ->
@@ -405,6 +421,7 @@ fun <T> LiveData<T>.first(): MutableLiveData<T> {
 /**
  * Live data only not null.
  */
+@Suppress("unused")
 fun <T> LiveData<T>.nonNull(): MutableLiveData<T> {
     return where { _, _, newValue ->
         newValue != null

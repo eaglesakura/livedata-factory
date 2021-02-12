@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
  * val task: Task<Result> = ...
  * task.awaitWithSuspend()
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Deprecated("rename to awaitInCoroutines", ReplaceWith("awaitInCoroutines"))
 suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> = this.awaitInCoroutines()
@@ -27,6 +27,8 @@ suspend fun <T> Task<T>.awaitWithSuspend(): Task<T> = this.awaitInCoroutines()
  * e.g.)
  * val task: Task<Result> = ...
  * task.awaitInCoroutines()
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun <T> Task<T>.awaitInCoroutines(): Task<T> {
     val channel = Channel<Unit>()
@@ -51,6 +53,8 @@ suspend fun <T> Task<T>.awaitInCoroutines(): Task<T> {
  * e.g.)
  * val task: PendingResult<Result> = ...
  * task.awaitWithSuspend()
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Deprecated("rename to awaitInCoroutines", ReplaceWith("awaitInCoroutines"))
 suspend fun <T : Result> PendingResult<T>.awaitWithSuspend(): T = this.awaitInCoroutines()
@@ -62,6 +66,8 @@ suspend fun <T : Result> PendingResult<T>.awaitWithSuspend(): T = this.awaitInCo
  * e.g.)
  * val task: PendingResult<Result> = ...
  * task.awaitInCoroutines()
+ * @author @eaglesakura
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 suspend fun <T : Result> PendingResult<T>.awaitInCoroutines(): T {
     val channel = Channel<T>()

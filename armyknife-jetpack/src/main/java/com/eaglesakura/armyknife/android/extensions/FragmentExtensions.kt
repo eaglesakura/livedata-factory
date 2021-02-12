@@ -14,7 +14,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import com.eaglesakura.armyknife.runtime.extensions.instanceOf
+import com.eaglesakura.armyknife.android.internal.instanceOf
 import kotlin.reflect.KClass
 
 /**
@@ -50,13 +50,13 @@ fun <T : Any> Fragment.findInterface(clazz: KClass<T>): T? {
     // find from parent
     var target: Fragment? = this
     while (target != null) {
-        if (target.instanceOf(clazz)) {
+        if (target.instanceOf(clazz.java)) {
             return target as T
         }
         target = target.parentFragment
     }
 
-    if (activity?.instanceOf(clazz) == true) {
+    if (activity?.instanceOf(clazz.java) == true) {
         return activity as T
     }
 
@@ -120,6 +120,7 @@ inline fun <reified T> Fragment.requireInterface(): T {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("remove this extension.", ReplaceWith(""))
 @MainThread
 inline fun <reified VM : ViewModel> Fragment.savedStateViewModels() = createViewModelLazy(
     VM::class,
@@ -139,6 +140,7 @@ inline fun <reified VM : ViewModel> Fragment.savedStateViewModels() = createView
  * @see androidx.fragment.app.FragmentActivity
  * @see SavedStateViewModelFactory
  */
+@Deprecated("remove this extension.", ReplaceWith(""))
 @MainThread
 inline fun <reified VM : ViewModel> Fragment.activitySavedStateViewModels() = createViewModelLazy(
     VM::class,
@@ -166,6 +168,7 @@ inline fun <reified VM : ViewModel> Fragment.activitySavedStateViewModels() = cr
  * @see SavedStateViewModelFactory
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("remove this extension.", ReplaceWith(""))
 val Fragment.savedStateHandle: SavedStateHandle
     get() = ViewModelProviders.of(
         this,

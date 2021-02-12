@@ -14,7 +14,7 @@ import androidx.core.net.toUri
  * Utility for runtime resources control.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 object ApplicationResources {
 

@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat
  * @param channelId channel id for Android O or later.
  * @param block Build notification block.
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Service.startForeground(
     id: Int,

@@ -21,7 +21,7 @@ import kotlinx.coroutines.channels.Channel
  * You should not call Disposable.dispose() method.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun <T> Observable<T>.toLiveData(): LiveData<T> {
     return RxLiveData(this)
@@ -43,7 +43,7 @@ fun <T> Observable<T>.toLiveData(): LiveData<T> {
  * }    // Channel.close() on exit.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @CheckResult
 fun <T> Observable<T>.toChannel(dispatcher: CoroutineDispatcher): Channel<T> {
@@ -216,7 +216,7 @@ fun Disposable.with(
  * Subscribe value from any Observable with Lifecycle.
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Deprecated("This function not working(can't call this. Compiler select to other overload functions).")
 fun <T> Observable<T>.subscribe(
@@ -238,7 +238,7 @@ fun <T> Observable<T>.subscribe(
  * Observable will call "onComplete()" function at lifecycle in "Event.ON_DESTROY".
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 fun Lifecycle.toObservable(): Observable<Lifecycle.Event> {
     val result = PublishSubject.create<Lifecycle.Event>()

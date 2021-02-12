@@ -12,6 +12,7 @@ import kotlinx.coroutines.Job
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("replace to 'LifecycleOwner.lifecycleScope.launchWhenCreated { }'")
 fun Job.with(lifecycle: Lifecycle) {
     val job = this
     lifecycle.subscribeWithCancel { event, cancel ->
@@ -33,6 +34,7 @@ fun Job.with(lifecycle: Lifecycle) {
  * @author @eaglesakura
  * @link https://github.com/eaglesakura/armyknife-jetpack
  */
+@Deprecated("replace to 'LifecycleOwner.lifecycleScope.launchWhenResumed { }'")
 fun Job.withForeground(lifecycle: Lifecycle) {
     val job = this
     lifecycle.subscribeWithCancel { event, cancel ->

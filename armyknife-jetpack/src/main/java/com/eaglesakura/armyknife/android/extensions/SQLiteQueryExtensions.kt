@@ -1,8 +1,8 @@
 package com.eaglesakura.armyknife.android.extensions
 
+import android.util.Base64
 import androidx.sqlite.db.SupportSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteStatement
-import com.eaglesakura.armyknife.runtime.extensions.encodeBase64
 
 internal fun SupportSQLiteQuery.getBindArgs(): Array<String?> {
     val args = mutableListOf<String?>()
@@ -30,7 +30,11 @@ internal fun SupportSQLiteQuery.getBindArgs(): Array<String?> {
         override fun executeInsert(): Long = 0
 
         override fun bindBlob(index: Int, value: ByteArray?) {
-            args += value?.encodeBase64()
+            args += if (value != null) {
+                Base64.encodeToString(value, Base64.NO_WRAP or Base64.URL_SAFE)
+            } else {
+                null
+            }
         }
 
         override fun executeUpdateDelete(): Int = 0

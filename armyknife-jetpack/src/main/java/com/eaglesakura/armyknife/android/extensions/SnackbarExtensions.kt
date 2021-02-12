@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
  * snackbar.setBackgroundColor(color)
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun Snackbar.setBackgroundColor(@ColorInt color: Int) {
@@ -29,7 +29,7 @@ inline fun Snackbar.setBackgroundColor(@ColorInt color: Int) {
  * snackbar.setTextColor(color)
  *
  * @author @eaglesakura
- * @link https://github.com/eaglesakura/army-knife
+ * @link https://github.com/eaglesakura/armyknife-jetpack
  */
 @Suppress("NOTHING_TO_INLINE")
 inline fun Snackbar.setTextColor(@ColorInt color: Int) {
